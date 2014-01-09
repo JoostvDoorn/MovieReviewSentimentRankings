@@ -1,4 +1,8 @@
+# Eclipse project
 *.class
+.project
+.classpath
+.externalToolBuilders/
 
 # Package Files #
 *.jar
@@ -19,3 +23,6 @@
 *.fdb_latexmk
 *.fls
 *.run.xml
+
+# Other #
+*.*~
