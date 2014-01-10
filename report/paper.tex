@@ -1,0 +1,79 @@
+\documentclass{sig-alternate-br}
+\usepackage{multirow}
+\usepackage{rotating}
+\usepackage{xcolor,colortbl}
+\usepackage[official]{eurosym}
+\usepackage{hyperref}
+% \url{} als link + fixed-width font
+\usepackage{url}
+
+% interpunctie, citations
+\usepackage[english]{babel}
+\usepackage{csquotes}% Recommended
+\usepackage{natbib}
+
+
+% tabel tool
+\usepackage{tabu}
+
+
+\usepackage{graphicx}
+\usepackage{subfig}
+
+\begin{document}
+\CopyrightYear{2013} 
+
+\title{Analyzing Movie Sentiment on the Web}
+
+\numberofauthors{3}
+\author{
+\alignauthor Joost van Doorn\\
+       \affaddr{University of Twente}\\
+       \affaddr{P.O. Box 217, 7500AE Enschede}\\
+       \affaddr{The Netherlands}\\
+\alignauthor Bas Janssen\\
+       \affaddr{University of Twente}\\
+       \affaddr{P.O. Box 217, 7500AE Enschede}\\
+       \affaddr{The Netherlands}\\
+\alignauthor Niek Tax\\
+       \affaddr{University of Twente}\\
+       \affaddr{P.O. Box 217, 7500AE Enschede}\\
+       \affaddr{The Netherlands}\\
+}
+
+\maketitle
+\begin{abstract}
+One day an abstract will appear at this place :).
+\end{abstract} 
+
+\keywords{Sentiment Analysis}
+
+\section{Idea}
+With the emergence of the Web2.0 came a staggering increase of online reviews for, amongst others, movies. Reviews on the web often appear shortly after a movie's cinema release, possibly already during the movie's opening night on social media like Twitter. 
+
+Several studies have shown the predictive power of online movie review sentiment to movie sales performance \cite{Mishne2006, Liu2007, Asur2010, Yu2012}. Existing research in the predictive power of online movie review sentiment have limited scope, focussing on one blogging platform or social medium. The release of the Common Crawl\footnote{commoncrawl.org} data set allows us to research the applicability of movie sentiments on a large crawl of the web.  
+
+We also investigate the level of agreement between online movie review sentiment and Internet Movie Database (IMDb)\footnote{imdb.com} movie rating. A high agreement between IMDb ratings and online movie review sentiment would 1) show that IMDb movie ratings reflect a movie's overall appreciation the web, and 2) make it possible for the movie industry to obtain rating input data for sales forecasting models in an earlier stage, as the minimal sample size needed for reliable ratings will be reached earlier on whole web than on a single resource.
+
+\section{Method}
+Socher et al \cite{Socher2013} made their recursive neural tensor network sentence-level sentiment analysis model for predicting review sentiment publicly available as part of the StanfordNLP.
+
+\section{Results}
+
+\section{Discussion}
+
+\section{Acknowledgement}
+Our special thanks to Dr. Djoerd Hiemstra for his supervision throughout the research as our supervisor and to IMDb for making the movie ratings available. Furthermore we would like to thank SURFsara for allowing us to run computations on their Hadoop cluster.
+%
+% The following two commands are all you need in the
+% initial runs of your .tex file to
+% produce the bibliography for the citations in your paper.
+
+\bibliographystyle{abbrv}
+\bibliography{paper}
+
+\balancecolumns
+
+\onecolumn
+
+\end{document}

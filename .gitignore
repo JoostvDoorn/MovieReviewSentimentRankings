@@ -1,11 +1,28 @@
+# Eclipse project
 *.class
-
+.project
+.classpath
+.externalToolBuilders/
 
 # Package Files #
 *.jar
 *.war
 *.ear
 
+# LaTeX temp files
+*.aux
+*.bbl
+*.blg
+*.log
+*.pdf
+*.synctex.gz
+*.out
+*.dvi
+*.ps
+*.bcf
+*.fdb_latexmk
+*.fls
+*.run.xml
 
 # Other #
 *.*~
