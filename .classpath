@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="src" output="build" path="java"/>
 	<classpathentry kind="src" path="commoncrawl-examples/src/java"/>
 	<classpathentry kind="var" path="JRE_LIB" sourcepath="JRE_SRC"/>
 	<classpathentry kind="con" path="commoncrawl-examples/${classpath}"/>
@@ -55,5 +54,11 @@
 	<classpathentry kind="lib" path="commoncrawl-examples/lib/guava-12.0.jar"/>
 	<classpathentry kind="lib" path="commoncrawl-examples/lib/httpcore-4.2.1.jar"/>
 	<classpathentry kind="lib" path="commoncrawl-examples/lib/jsoup-1.7.2-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="lib/commons-io-2.4.jar"/>
+	<classpathentry kind="lib" path="lib/gson-2.2.1.jar"/>
+	<classpathentry kind="lib" path="lib/guava-12.0.jar"/>
+	<classpathentry kind="lib" path="lib/httpcore-4.2.1.jar"/>
+	<classpathentry kind="lib" path="lib/jsoup-1.7.2-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="lib/piggybank.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

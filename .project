@@ -28,27 +28,12 @@
 		<link>
 			<name>${classpath}</name>
 			<type>2</type>
-			<location>commoncrawl-examples/src/${classpath}</location>
-		</link>
-		<link>
-			<name>README.html</name>
-			<type>1</type>
-			<location>commoncrawl-examples/src/README.html</location>
+			<locationURI>commoncrawl-examples/src/$%7Bclasspath%7D</locationURI>
 		</link>
 		<link>
 			<name>build</name>
 			<type>2</type>
-			<location>commoncrawl-examples/src/build</location>
-		</link>
-		<link>
-			<name>build.xml</name>
-			<type>1</type>
-			<location>commoncrawl-examples/src/build.xml</location>
-		</link>
-		<link>
-			<name>java</name>
-			<type>2</type>
-			<location>commoncrawl-examples/src/java</location>
+			<locationURI>commoncrawl-examples/src/build</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>
