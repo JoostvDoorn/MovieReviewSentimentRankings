@@ -51,7 +51,7 @@ One day an abstract will appear at this place :).
 \section{Idea}
 With the emergence of the Web2.0 came a staggering increase of online reviews for, amongst others, movies. Reviews on the web often appear shortly after a movie's cinema release, possibly already during the movie's opening night on social media like Twitter. 
 
-Several studies have shown the predictive power of online movie review sentiment to movie sales performance \cite{Mishne2006, Liu2007, Dellarocas2007, Asur2010, Joshi2010, Yu2012}. Existing research in the predictive power of online movie review sentiment have limited scope, focussing on one blogging platform or social medium. The release of the Common Crawl\footnote{commoncrawl.org} data set allows us to research the applicability of movie sentiments on a large crawl of the web.  
+Several studies have shown the predictive power of online movie review sentiment to movie sales performance \cite{Mishne2006, Liu2007, Dellarocas2007, Asur2010, Joshi2010, Yu2012}. Existing research in the predictive power of online movie review sentiment have limited scope, focusing on one blogging platform or social medium. The release of the Common Crawl\footnote{commoncrawl.org} data set allows us to research the applicability of movie sentiments on a large crawl of the web.  
 
 We also investigate the level of agreement between online movie review sentiment and Internet Movie Database (IMDb\footnote{imdb.com}) movie rating. A high agreement between IMDb ratings and online movie review sentiment would 1) show that IMDb movie ratings reflect a movie's overall appreciation the web, and 2) make it possible for the movie industry to obtain rating input data for sales forecasting models in an earlier stage, as the minimal sample size needed for reliable ratings will be reached earlier on whole web than on a single resource. A previous study in this area by Oghina et al \cite{Oghina2012} achieved a Spearman's $\rho$ of 0.8915 between IMDb rating and a Twitter and Youtube data based machine learning model. No similar web crawl based study is known to the authors.
 
@@ -60,11 +60,18 @@ We use a publicly available random subset of the IMDb database\footnote{ftp://ft
 
 Using a user-defined function (UDF) in Pig we filter the Text Only files (containing only textual content of the HTML body) from the Common Crawl data set to obtain the web content of only those pages that contain one of the movie titles in our movie set. We split this content into sentences using the sentence splitter that comes with the Stanford CoreNLP\footnote{nlp.stanford.edu/software/corenlp.shtml} Tokenizer. The outputted sentences are again filtered on presence of a movie title from our movie set to obtain all sentences in Common Crawl that mention a movie in our movie set.
 
-Socher et al \cite{Socher2013} made their recursive neural tensor network sentence-level sentiment analysis model for predicting review sentiment publicly available as part of the Stanford CoreNLP library. We use this sentiment analysis model to construct movie-sentiment key-value pairs for each sentence, with sentiment being an element from the set \{--,-,0,+,++\} . A reduce task transforms these movie-sentiment pairs into counts of the different sentiment category for each movie.
+Socher et al \cite{Socher2013} made their recursive neural tensor network sentence-level sentiment analysis model for predicting review sentiment publicly available as part of the Stanford CoreNLP library. We use this sentiment analysis model to construct movie-sentiment key-value pairs for each sentence, with sentiment being an element from the set \texttt{\{\mbox{---},--,0,+,\mbox{++}\}} . A reduce task transforms these movie-sentiment pairs into counts of the different sentiment categories for each movie.
 
 \section{Results}
+We have not been able to run the sentiment analysis on the sample set yet. Therefore we can only make a hypothesis about the results. We expect to find a correlation between the IMDB ratings and the general sentiment on the web. As IMDB is the most popular source for movie information, we expect their reviewers to be a fair representation of the general population. In the same sense we expect this of the Common Crawl dataset.
+
+% According to Alexa, imdb is the 44 most popular site worldwide
+
+
+Although we generally expect IMDB to reach a fair share of the general population, we do expect some differences. Some groups may be underrepresented on IMDB. This may be because this group prefers to use another website. This could cause some categories to get different ratings on IMDB than our analysis of the general web.
 
 \section{Discussion}
+The movies sentiment analysis may be used in different ways. Movies can be ranked based on their sentiment. Sentiment can be used as a predictor of a movies success. Movies may show different types of sentiment distributions which could be an indicator of the distribution of the fanbase, some movies may have loyal fans and just as many who absolutely hat a movie. Depending on the results of our analysis, we will determine the final presentation of the project.
 
 \section{Acknowledgement}
 Our special thanks to Dr. Djoerd Hiemstra for his supervision throughout the research as our supervisor and to IMDb for making the movie ratings available. Furthermore we would like to thank SURFsara for allowing us to run computations on their Hadoop cluster.
