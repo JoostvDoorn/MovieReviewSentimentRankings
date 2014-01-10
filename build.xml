@@ -62,6 +62,7 @@
       	</fileset>
         <fileset dir="lib">
           <include name="**/*.jar"/>
+          <include name="**/*/*.jar"/>
         </fileset>
       </classpath>
     </javac>
@@ -92,6 +93,7 @@
         </fileset>
         <fileset dir="lib">
           <include name="**/*.jar"/>
+          <include name="**/*/*.jar"/>
         </fileset>
         <pathelement path="${dist}/lib/${name}-${version}.jar"/>
       </classpath>
