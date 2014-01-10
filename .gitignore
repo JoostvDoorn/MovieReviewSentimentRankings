@@ -3,6 +3,7 @@
 .project
 .classpath
 .externalToolBuilders/
+.metadata/
 lib/stanford-corenlp-full-2014-01-04
 dist/*
 lib/downloads/*
