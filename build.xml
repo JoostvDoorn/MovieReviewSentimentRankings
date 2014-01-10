@@ -55,7 +55,6 @@
           <include name="**/hadoop-core-*.jar"/>
           <include name="**/log4j-*.jar"/>
           <include name="**/junit-*.jar"/>
-          <include name="**/commons-io-*.jar"/>
 
         </fileset>
       	<fileset dir="${pig.path}">

@@ -4,6 +4,7 @@
 .classpath
 .externalToolBuilders/
 lib/stanford-corenlp-full-2014-01-04
+dist/*
 
 # Package Files #
 *.war

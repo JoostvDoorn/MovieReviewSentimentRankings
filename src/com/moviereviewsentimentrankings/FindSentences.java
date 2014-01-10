@@ -1,8 +1,8 @@
 package com.moviereviewsentimentrankings;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Properties;
 
 import org.apache.pig.EvalFunc;
 import org.apache.pig.backend.executionengine.ExecException;
@@ -11,6 +11,14 @@ import org.apache.pig.data.DataBag;
 import org.apache.pig.data.Tuple;
 import org.apache.pig.data.TupleFactory;
 import org.apache.pig.impl.util.WrappedIOException;
+
+import edu.stanford.nlp.ling.CoreAnnotations;
+import edu.stanford.nlp.pipeline.Annotation;
+import edu.stanford.nlp.pipeline.StanfordCoreNLP;
+import edu.stanford.nlp.sentiment.SentimentCoreAnnotations;
+import edu.stanford.nlp.trees.Tree;
+import edu.stanford.nlp.util.CoreMap;
+
 
 public class FindSentences extends EvalFunc<DataBag> {
 	TupleFactory mTupleFactory = TupleFactory.getInstance();
@@ -35,10 +43,18 @@ public class FindSentences extends EvalFunc<DataBag> {
 			}
 			String url = (String) o_url;
 			String contents = (String) o_contents;
-			String[] sentences = contents.split("([.?!][ \n\t])");
-			for(String sentence : sentences) {
-				output.add(mTupleFactory.newTuple(Arrays.asList(url, sentence)));
-			}
+
+			Properties props = new Properties();
+
+		    props.setProperty("annotators", "tokenize, ssplit, parse, sentiment");
+		    StanfordCoreNLP pipeline = new StanfordCoreNLP(props);
+		    Annotation annotation = new Annotation(contents);
+		    pipeline.annotate(annotation);
+		    for (CoreMap sentence : annotation.get(CoreAnnotations.SentencesAnnotation.class)) {
+		    	Tree tree = sentence.get(SentimentCoreAnnotations.AnnotatedTree.class);
+		    	String sentence_result = sentence.get(SentimentCoreAnnotations.ClassName.class);
+		    	output.add(mTupleFactory.newTuple(Arrays.asList(url,sentence,sentence_result)));
+		    }
 			
 			return output;
 		} catch (ExecException ee) {
