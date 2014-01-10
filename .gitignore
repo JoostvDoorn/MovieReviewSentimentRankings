@@ -5,7 +5,6 @@
 .externalToolBuilders/
 
 # Package Files #
-*.jar
 *.war
 *.ear
 
