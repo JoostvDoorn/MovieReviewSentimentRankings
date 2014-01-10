@@ -17,6 +17,7 @@ import org.apache.pig.impl.util.WrappedIOException;
 
 import edu.stanford.nlp.ling.CoreAnnotations;
 import edu.stanford.nlp.ling.HasWord;
+import edu.stanford.nlp.neural.rnn.RNNCoreAnnotations;
 import edu.stanford.nlp.pipeline.Annotation;
 import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 import edu.stanford.nlp.process.DocumentPreprocessor;
@@ -67,13 +68,22 @@ public class FindSentences extends EvalFunc<DataBag> {
 			// Documenten zonder film weggooien
 			if(!docContainsMovie)
 				return null;
-
+			
+			// Afbreken als document > x characters (TODO: tijdelijk x=20000, beter over nadenken)
+			if(contents.length()>20000)
+				return null;
+			
 			// Document op zinnen splitsen
 			DocumentPreprocessor dp = new DocumentPreprocessor(new StringReader(contents));
-			for (List<HasWord> hasWordList : dp) {
-				String sentence = "";
-				for(HasWord hw: hasWordList)
-					sentence += " "+hw.word();
+			for (List hasWordList : dp) {
+				String sentence = ""+ hasWordList;
+				documents.add(mTupleFactory.newTuple(Arrays.asList(url, sentence)));
+
+				
+				// Zin afbreken als > x characters (TODO: tijdelijk x=300, beter over nadenken)
+				if (sentence.length() > 300)
+					break;
+				
 				// zin checken op filmnaam
 				boolean senContainsMovie = false;
 				for(String movie: movieList){
@@ -82,25 +92,30 @@ public class FindSentences extends EvalFunc<DataBag> {
 						break;
 					}
 				}
-									
 				// zinnen zonder film weggooien
-				if(senContainsMovie)
-					documents.add(mTupleFactory.newTuple(Arrays.asList(url,sentence)));
+				if(!senContainsMovie)
+					break;
+				  
+				Properties props = new Properties();
+				props.setProperty("annotators", "tokenize, ssplit, parse, sentiment");
+			    StanfordCoreNLP pipeline = new StanfordCoreNLP(props);
+			    int mainSentiment = 0;
+		        if (sentence != null && sentence.length() > 0) {
+		            int longest = 0;
+		            Annotation annotation = pipeline.process(sentence);
+		            for (CoreMap cm : annotation.get(CoreAnnotations.SentencesAnnotation.class)) {
+		                Tree tree = cm.get(SentimentCoreAnnotations.AnnotatedTree.class);
+		                int sentiment = RNNCoreAnnotations.getPredictedClass(tree);
+		                String partText = sentence.toString();
+		                if (partText.length() > longest) {
+		                    mainSentiment = sentiment;
+		                    longest = partText.length();
+		                }
+		            }
+		        }
+		        //documents.add(mTupleFactory.newTuple(Arrays.asList(sentence, mainSentiment)));
 			}
-			  
-			/*Properties props = new Properties();
-
-		    props.setProperty("annotators", "tokenize, ssplit, parse, sentiment");
-		    StanfordCoreNLP pipeline = new StanfordCoreNLP(props);
-		    Annotation annotation = new Annotation(contents);
-		    pipeline.annotate(annotation);
-		    for (CoreMap sentence : annotation.get(CoreAnnotations.SentencesAnnotation.class)) {
-		    	Tree tree = sentence.get(SentimentCoreAnnotations.AnnotatedTree.class);
-		    	String sentence_result = sentence.get(SentimentCoreAnnotations.ClassName.class);
-		    	documents.add(mTupleFactory.newTuple(Arrays.asList(url,sentence,sentence_result)));
-		    }*/
-			
-			return documents;
+			return documents.size()==0 ? null : documents;
 		} catch (ExecException ee) {
 			throw WrappedIOException.wrap("Caught exception processing input row ", ee);
 		}
