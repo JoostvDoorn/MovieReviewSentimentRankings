@@ -63,12 +63,12 @@ Using a user-defined function (UDF) in Pig we filter the Text Only files (contai
 Socher et al \cite{Socher2013} made their recursive neural tensor network sentence-level sentiment analysis model for predicting review sentiment publicly available as part of the Stanford CoreNLP library. We use this sentiment analysis model to construct movie-sentiment key-value pairs for each sentence, with sentiment being an element from the set \texttt{\{\mbox{---},--,0,+,\mbox{++}\}} . A reduce task transforms these movie-sentiment pairs into counts of the different sentiment categories for each movie.
 
 \section{Results}
-We have not been able to run the sentiment analysis on the sample set yet. Therefore we can only make a hypothesis about the results. We expect to find a correlation between the IMDB ratings and the general sentiment on the web. As IMDB is the most popular source for movie information, we expect their reviewers to be a fair representation of the general population. In the same sense we expect this of the Common Crawl dataset.
+We have not been able to run the sentiment analysis on the sample set yet (although we are making good progress on the implementation). Therefore we can only make a hypothesis about the results. We expect to find a correlation between the IMDb ratings and the general sentiment on the web. As IMDb is the most popular source for movie information, we expect their reviewers to be a fair representation of the general population. In the same sense we expect this of the Common Crawl dataset.
 
 % According to Alexa, imdb is the 44 most popular site worldwide
 
 
-Although we generally expect IMDB to reach a fair share of the general population, we do expect some differences. Some groups may be underrepresented on IMDB. This may be because this group prefers to use another website. This could cause some categories to get different ratings on IMDB than our analysis of the general web.
+Although we generally expect IMDb to reach a fair share of the general population, we do expect some differences. Some groups may be underrepresented on IMDb. This may be because this group prefers to use another website. This could cause some categories to get different ratings on IMDb than our analysis of the general web.
 
 \section{Discussion}
 The online movie review sentiment analysis may be used in different ways. Movies can be ranked based on their sentiment. Sentiment can be used as a predictor of a movies success and will reach a reasonable sample size much faster than a single resource. 
