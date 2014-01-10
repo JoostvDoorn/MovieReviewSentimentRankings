@@ -1,3 +1,7 @@
 [submodule "CoreNLP"]
 	path = CoreNLP
 	url = https://github.com/stanfordnlp/CoreNLP.git
+
+[submodule "commoncrawl-examples"]
+	path = commoncrawl-examples
+	url = git://github.com/norvigaward/commoncrawl-examples.git
