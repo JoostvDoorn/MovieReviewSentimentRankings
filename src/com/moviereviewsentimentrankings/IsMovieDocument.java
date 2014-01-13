@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.apache.pig.FilterFunc;
 import org.apache.pig.backend.executionengine.ExecException;
+import org.apache.pig.data.DataBag;
 import org.apache.pig.data.Tuple;
 
 public class IsMovieDocument extends FilterFunc {
@@ -17,13 +18,13 @@ public class IsMovieDocument extends FilterFunc {
     		String content = (String) input.get(0);
         	// Movie List
 			// TODO: Movie file inlezen/doorpassen
-			List<String> movieList = new ArrayList<String>(
-				    Arrays.asList("The Godfather", "Toy Story", "The Matrix", "Jurassic Park", "Home Alone", "Star Wars", "The Lord of the Rings"));
+			DataBag movieList = (DataBag) input.get(1);
 
 			// Document checken op filmnaam
 			boolean docContainsMovie = false;
-			for(String movie: movieList){
-				if(content.toLowerCase().contains(movie.toLowerCase())){
+			for(Tuple movie: movieList){
+				String title = (String) movie.get(0);
+				if(content.toLowerCase().contains(title.toLowerCase())){
 					docContainsMovie = true;
 					break;
 				}
