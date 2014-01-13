@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
+import org.apache.commons.logging.Log;
 import org.apache.pig.EvalFunc;
 import org.apache.pig.backend.executionengine.ExecException;
 import org.apache.pig.data.BagFactory;
@@ -24,13 +25,16 @@ import edu.stanford.nlp.trees.Tree;
 import edu.stanford.nlp.util.CoreMap;
 
 
-public class FindSentences extends EvalFunc<DataBag> {
-	TupleFactory mTupleFactory = TupleFactory.getInstance();
-	BagFactory mBagFactory = BagFactory.getInstance();
+public class FindSentences extends EvalFunc<Tuple> {
+	TupleFactory mTupFactory = TupleFactory.getInstance();
 
-	public DataBag exec(Tuple input) throws IOException {
+	public Tuple exec(Tuple input) throws IOException {
 		try {
-			DataBag documents 		= mBagFactory.newDefaultBag();
+			// Logger for Debugging
+			Log logger = this.getLogger();
+			logger.debug("test");
+			
+			Tuple docTuple 		= mTupFactory.newTuple();
 						
 			Object o_url = input.get(0);
 			Object o_contents = input.get(1);
@@ -77,7 +81,7 @@ public class FindSentences extends EvalFunc<DataBag> {
 			for (List hasWordList : dp) {
 				sentence = ""+ hasWordList;
 			}
-			documents.add(mTupleFactory.newTuple(Arrays.asList(url, sentence)));
+			//documents.add(mTupleFactory.newTuple(Arrays.asList(url, sentence)));
 
 				
 			// Zin afbreken als > x characters (TODO: tijdelijk x=300, beter over nadenken)
@@ -114,8 +118,10 @@ public class FindSentences extends EvalFunc<DataBag> {
 		            }
 		        }
 		    }
-		    //documents.add(mTupleFactory.newTuple(Arrays.asList(sentence, mainSentiment)));
-			return documents.size()==0 ? null : documents;
+		    // Create and return tuple
+		    docTuple.append(sentence);
+		    docTuple.append(mainSentiment);
+			return docTuple.size()==0 ? null : docTuple;
 		} catch (ExecException ee) {
 			throw new IOException("Caught exception processing input row ", ee);
 		}
