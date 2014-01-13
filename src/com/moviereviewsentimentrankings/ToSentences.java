@@ -2,7 +2,6 @@ package com.moviereviewsentimentrankings;
 
 import java.io.IOException;
 import java.io.StringReader;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -32,14 +31,7 @@ public class ToSentences extends EvalFunc<DataBag> {
 			if (!(input.get(0) instanceof String)) {
 				throw new IOException("Expected input to be chararray, but  got " + (input.get(0) == null ? "" : input.get(0).getClass().getName()));
 			}
-			if(input.get(1) == null) {
-				throw new IOException("Expected input to be chararray, but  got null");
-			}
-			if (!(input.get(1) instanceof String)) {
-				throw new IOException("Expected input to be chararray, but  got " + (input.get(1) == null ? "" : input.get(1).getClass().getName()));
-			}
-			String url		= (String) input.get(0);
-			String content = (String) input.get(1);
+			String content = (String) input.get(0);
 			
 			// Document op zinnen splitsen
 			DocumentPreprocessor dp = new DocumentPreprocessor(new StringReader(content));
@@ -59,7 +51,8 @@ public class ToSentences extends EvalFunc<DataBag> {
 			
 			for(String sentence: sentenceList){
 				Tuple tuple = mTupFactory.newTuple();
-				tuple.append(url);
+				String movie = Math.random() > 0.5 ? "Toy Story" : "The Matrix";
+				tuple.append(movie);
 				tuple.append(sentence);
 				sentences.add(tuple);
 			}

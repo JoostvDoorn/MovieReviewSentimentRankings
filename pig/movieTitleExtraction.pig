@@ -13,11 +13,16 @@ register ../lib/stanford-corenlp-full-2014-01-04/xom.jar;
 
 DEFINE IsMovieDocument com.moviereviewsentimentrankings.IsMovieDocument;
 DEFINE ToSentences com.moviereviewsentimentrankings.ToSentences;
+DEFINE ToSentiment com.moviereviewsentimentrankings.ToSentiment;
 DEFINE SequenceFileLoader org.apache.pig.piggybank.storage.SequenceFileLoader();
 pages = LOAD '/home/participant/data/textData-*' USING SequenceFileLoader as (url:chararray, content:chararray);
 
 movie_pages = FILTER pages BY IsMovieDocument(content);
 
-movie_page_sentences = FOREACH movie_pages GENERATE ToSentences(url, content);
+movie_page_sentences = FOREACH movie_pages GENERATE flatten(ToSentences(content)) as (movie:chararray, content:chararray);
 
-dump movie_page_sentences;
+movie_sentences = FILTER movie_page_sentences BY IsMovieDocument(content);
+
+movie_sentiment = FOREACH movie_sentences GENERATE ToSentiment(movie, content);
+
+dump movie_sentiment;
