@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
 import org.apache.pig.FilterFunc;
 import org.apache.pig.backend.executionengine.ExecException;
 import org.apache.pig.data.Tuple;
@@ -15,6 +16,7 @@ public class IsMovieDocument extends FilterFunc {
 	public Boolean exec(Tuple input) throws IOException {
         try {
     		String content = (String) input.get(0);
+    		
         	// Movie List
 			// TODO: Movie file inlezen/doorpassen
 			List<String> movieList = new ArrayList<String>(
