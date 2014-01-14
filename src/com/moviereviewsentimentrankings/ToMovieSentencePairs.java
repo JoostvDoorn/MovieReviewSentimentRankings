@@ -58,10 +58,8 @@ public class ToMovieSentencePairs extends EvalFunc<DataBag> {
 				List<String> movies = new ArrayList<String>();
 				for(Tuple movie: movieList){
 					String title = (String) movie.get(0);
-					if(content.toLowerCase().contains(title.toLowerCase())){
+					if(sentence.toLowerCase().contains(" "+title.toLowerCase()+" "))
 						movies.add(title);
-						log.error("movie: "+title.toLowerCase()+"["+title.toLowerCase().length()+"] found in sentence: "+sentence.toLowerCase()+"["+sentence.toLowerCase().length()+"]");
-					}
 				}
 				for(String movieTitle: movies){
 					Tuple tuple = mTupFactory.newTuple();

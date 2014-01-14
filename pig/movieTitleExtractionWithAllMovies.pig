@@ -26,7 +26,6 @@ movie_pages = FILTER pages BY IsMovieDocument(content, movies_grp.movies);
 movie_page_sentences = FOREACH movie_pages GENERATE flatten(ToMovieSentencePairs(content, movies_grp.movies)) as (movie:chararray, content:chararray);
 
 dump movie_page_sentences;
--- movie_sentences = FILTER movie_page_sentences BY IsMovieDocument(content, movies_grp.movies);
 
 -- movie_sentiment = FOREACH movie_sentences GENERATE ToSentiment(movie, content);
 
