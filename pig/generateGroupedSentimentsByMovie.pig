@@ -26,7 +26,8 @@ words = LOAD '../data/brit-a-z.txt' USING PigStorage('\t') as (word:chararray);
 movies_grp = GROUP movies ALL;
 words_grp = GROUP words ALL;
 
--- FILTER movies with English dictionary and title > 5 characters and GROUP resultmovies_fltr = FILTER movies BY IsNotWord(movie, words_grp.words);
+-- FILTER movies with English dictionary and title > 5 characters and GROUP result
+movies_fltr = FILTER movies BY IsNotWord(movie, words_grp.words);
 movies_fltr_grp = GROUP movies_fltr ALL;
 
 -- FILTER pages containing movie
