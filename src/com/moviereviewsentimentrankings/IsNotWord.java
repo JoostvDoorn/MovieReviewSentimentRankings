@@ -18,16 +18,20 @@ public class IsNotWord extends FilterFunc{
 		}
 		String movie 		= (String) input.get(0);
 		DataBag wordList 	= (DataBag) input.get(1);
+		
 		boolean matchesWord = false;
+		// Test if movie title > 5 characters
+		boolean minLength	= movie.length() > 5;
 		
-		for(Tuple wordTuple: wordList){
-			String word = (String) wordTuple.get(0);
-			if(movie == null || (word != null && word.toLowerCase().equals(movie.toLowerCase()))){
-				matchesWord = true;
-				break;
-			}			
-		}
+		if(minLength)
+			for(Tuple wordTuple: wordList){
+				String word = (String) wordTuple.get(0);
+				if(movie == null || (word != null && word.toLowerCase().equals(movie.toLowerCase()))){
+					matchesWord = true;
+					break;
+				}			
+			}
 		
-		return !matchesWord;
+		return minLength && !matchesWord;
 	}
 }
