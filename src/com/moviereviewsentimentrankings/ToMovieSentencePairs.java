@@ -26,7 +26,6 @@ public class ToMovieSentencePairs extends EvalFunc<DataBag> {
 			TupleFactory mTupFactory = TupleFactory.getInstance();
 			BagFactory mBagFactory = BagFactory.getInstance();
 			DataBag movieSentenceTuples = mBagFactory.newDefaultBag();
-			Log log = this.getLogger();
 						
 			if(input.get(0) == null) {
 				throw new IOException("Expected input to be chararray, but  got null");
@@ -58,7 +57,7 @@ public class ToMovieSentencePairs extends EvalFunc<DataBag> {
 				List<String> movies = new ArrayList<String>();
 				for(Tuple movie: movieList){
 					String title = (String) movie.get(0);
-					if(sentence.toLowerCase().contains(" "+title.toLowerCase()+" "))
+					if(sentence != null && title != null && sentence.toLowerCase().contains(" "+title.toLowerCase()+" "))
 						movies.add(title);
 				}
 				for(String movieTitle: movies){

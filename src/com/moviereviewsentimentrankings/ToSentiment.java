@@ -25,7 +25,15 @@ import edu.stanford.nlp.trees.Tree;
 import edu.stanford.nlp.util.CoreMap;
 
 public class ToSentiment extends EvalFunc<Tuple> {
-
+	Properties props;
+	StanfordCoreNLP pipeline;
+	
+	public ToSentiment(){
+		props = new Properties();
+		props.setProperty("annotators", "tokenize, ssplit, parse, sentiment");
+		pipeline = new StanfordCoreNLP(props);
+	}
+	
 	@Override
 	public Tuple exec(Tuple input) throws IOException {
 		try{
@@ -48,13 +56,14 @@ public class ToSentiment extends EvalFunc<Tuple> {
 			String content = (String) input.get(1);
 			
 			// Zin afbreken als > x characters (TODO: tijdelijk x=300, beter over nadenken)
-			if (content.length() > 300)
-				return null;
+			if (content.length() > 300){
+			    tuple.append(movie);
+			    // Model to long documents with -1
+			    tuple.append(-1);
+				return tuple;
+			}
 			
-			// Document op zinnen splitsen
-			Properties props = new Properties();
-			props.setProperty("annotators", "tokenize, ssplit, parse, sentiment");
-			StanfordCoreNLP pipeline = new StanfordCoreNLP(props);
+			// Zin sentiment opvragen
 			int mainSentiment = 0;
 		    if (content != null && content.length() > 0) {
 		    	int longest = 0;
@@ -77,5 +86,4 @@ public class ToSentiment extends EvalFunc<Tuple> {
 			throw new IOException("Caught exception processing input row ", ee);
 		}
 	}
-
 }

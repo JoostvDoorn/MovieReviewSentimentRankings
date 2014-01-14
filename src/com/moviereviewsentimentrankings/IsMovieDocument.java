@@ -24,7 +24,7 @@ public class IsMovieDocument extends FilterFunc {
 			boolean docContainsMovie = false;
 			for(Tuple movie: movieList){
 				String title = (String) movie.get(0);
-				if(content.toLowerCase().contains(" "+title.toLowerCase()+" ")){
+				if(content != null && title != null && content.toLowerCase().contains(" "+title.toLowerCase()+" ")){
 					docContainsMovie = true;
 					break;
 				}

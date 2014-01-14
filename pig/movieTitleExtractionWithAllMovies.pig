@@ -17,7 +17,7 @@ DEFINE ToSentiment com.moviereviewsentimentrankings.ToSentiment;
 DEFINE MoviesInDocument com.moviereviewsentimentrankings.MoviesInDocument;
 DEFINE SequenceFileLoader org.apache.pig.piggybank.storage.SequenceFileLoader();
 pages = LOAD '/home/participant/data/textData-*' USING SequenceFileLoader as (url:chararray, content:chararray);
-movies = LOAD '../data/movieTitlesTop2.txt' USING PigStorage('\t') as (movie:chararray);
+movies = LOAD '../data/movieTitlesTop10.txt' USING PigStorage('\t') as (movie:chararray);
 
 movies_grp = GROUP movies ALL;
 
