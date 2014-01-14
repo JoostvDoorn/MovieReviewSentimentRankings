@@ -23,10 +23,11 @@ movies_grp = GROUP movies ALL;
 
 movie_pages = FILTER pages BY IsMovieDocument(content, movies_grp.movies);
 
-movie_page_sentences = FOREACH movie_pages GENERATE flatten(ToMovieSentencePairs(content, movies_grp.movies)) as (movie:chararray, content:chararray);
+movie_sentences = FOREACH movie_pages GENERATE flatten(ToMovieSentencePairs(content, movies_grp.movies)) as (movie:chararray, content:chararray);
 
-dump movie_page_sentences;
+movie_sentiment = FOREACH movie_sentences GENERATE flatten(ToSentiment(movie, content)) as (movie:chararray, sentiment:int);
 
--- movie_sentiment = FOREACH movie_sentences GENERATE ToSentiment(movie, content);
+movie_sentiment_grp_tups = GROUP movie_sentiment BY movie;
 
--- dump movie_sentiment;
+movie_sentiment_grp = FOREACH movie_sentiment_grp_tups GENERATE group, movie_sentiment.sentiment;
+dump movie_sentiment_grp;
