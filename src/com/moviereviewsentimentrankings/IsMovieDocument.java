@@ -18,8 +18,6 @@ public class IsMovieDocument extends FilterFunc {
         try {
     		String content = (String) input.get(0);
     		
-        	// Movie List
-			// TODO: Movie file inlezen/doorpassen
 			DataBag movieList = (DataBag) input.get(1);
 
 			// Document checken op filmnaam

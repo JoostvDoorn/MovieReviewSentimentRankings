@@ -12,16 +12,22 @@ register ../lib/stanford-corenlp-full-2014-01-04/xom.jar;
 
 
 DEFINE IsMovieDocument com.moviereviewsentimentrankings.IsMovieDocument;
-DEFINE ToSentences com.moviereviewsentimentrankings.ToSentences;
-DEFINE MovieSentences com.moviereviewsentimentrankings.MovieSentences;
+DEFINE ToMovieSentencePairs com.moviereviewsentimentrankings.ToMovieSentencePairs;
+DEFINE ToSentiment com.moviereviewsentimentrankings.ToSentiment;
+DEFINE MoviesInDocument com.moviereviewsentimentrankings.MoviesInDocument;
 DEFINE SequenceFileLoader org.apache.pig.piggybank.storage.SequenceFileLoader();
 pages = LOAD '/home/participant/data/textData-*' USING SequenceFileLoader as (url:chararray, content:chararray);
-movies = LOAD '../data/movieTitlesTop250.txt' USING PigStorage('\t') as (movie:chararray);
+movies = LOAD '../data/movieTitlesTop2.txt' USING PigStorage('\t') as (movie:chararray);
 
-movies_grp         = GROUP movies ALL;
-movie_page_sentences = FOREACH pages GENERATE content, 
-                        IsMovieDocument(content, movies_grp.movies) AS movie;
+movies_grp = GROUP movies ALL;
 
--- movie_page_sentences = FOREACH pages GENERATE FLATTEN(MovieSentences(movies, content));
+movie_pages = FILTER pages BY IsMovieDocument(content, movies_grp.movies);
+
+movie_page_sentences = FOREACH movie_pages GENERATE flatten(ToMovieSentencePairs(content, movies_grp.movies)) as (movie:chararray, content:chararray);
 
 dump movie_page_sentences;
+-- movie_sentences = FILTER movie_page_sentences BY IsMovieDocument(content, movies_grp.movies);
+
+-- movie_sentiment = FOREACH movie_sentences GENERATE ToSentiment(movie, content);
+
+-- dump movie_sentiment;
