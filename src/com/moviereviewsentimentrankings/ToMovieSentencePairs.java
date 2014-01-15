@@ -2,10 +2,12 @@ package com.moviereviewsentimentrankings;
 
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
 import org.apache.pig.EvalFunc;
 import org.apache.pig.backend.executionengine.ExecException;
 import org.apache.pig.data.BagFactory;
@@ -16,22 +18,23 @@ import org.apache.pig.data.TupleFactory;
 import edu.stanford.nlp.ling.HasWord;
 import edu.stanford.nlp.process.DocumentPreprocessor;
 
-public class ToSentences extends EvalFunc<DataBag> {
+public class ToMovieSentencePairs extends EvalFunc<DataBag> {
 
 	@Override
 	public DataBag exec(Tuple input) throws IOException {
 		try{
 			TupleFactory mTupFactory = TupleFactory.getInstance();
 			BagFactory mBagFactory = BagFactory.getInstance();
-			DataBag sentences = mBagFactory.newDefaultBag();
-			
+			DataBag movieSentenceTuples = mBagFactory.newDefaultBag();
+						
 			if(input.get(0) == null) {
 				throw new IOException("Expected input to be chararray, but  got null");
 			}
 			if (!(input.get(0) instanceof String)) {
 				throw new IOException("Expected input to be chararray, but  got " + (input.get(0) == null ? "" : input.get(0).getClass().getName()));
 			}
-			String content = (String) input.get(0);
+			String content 		= (String) input.get(0);
+			DataBag movieList 	= (DataBag) input.get(1);
 			
 			// Document op zinnen splitsen
 			DocumentPreprocessor dp = new DocumentPreprocessor(new StringReader(content));
@@ -50,14 +53,22 @@ public class ToSentences extends EvalFunc<DataBag> {
 			}
 			
 			for(String sentence: sentenceList){
-				Tuple tuple = mTupFactory.newTuple();
-				String movie = Math.random() > 0.5 ? "Toy Story" : "The Matrix";
-				tuple.append(movie);
-				tuple.append(sentence);
-				sentences.add(tuple);
+				// Document checken op filmnaam
+				List<String> movies = new ArrayList<String>();
+				for(Tuple movie: movieList){
+					String title = (String) movie.get(0);
+					if(sentence != null && title != null && sentence.toLowerCase().contains(" "+title.toLowerCase()+" "))
+						movies.add(title);
+				}
+				for(String movieTitle: movies){
+					Tuple tuple = mTupFactory.newTuple();
+					tuple.append(movieTitle);
+					tuple.append(sentence);
+					movieSentenceTuples.add(tuple);
+				}
 			}
 				
-			return sentences;
+			return movieSentenceTuples;
 		} catch (ExecException ee) {
 			throw new IOException("Caught exception processing input row ", ee);
 		}

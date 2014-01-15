@@ -18,15 +18,13 @@ public class IsMovieDocument extends FilterFunc {
         try {
     		String content = (String) input.get(0);
     		
-        	// Movie List
-			// TODO: Movie file inlezen/doorpassen
 			DataBag movieList = (DataBag) input.get(1);
 
 			// Document checken op filmnaam
 			boolean docContainsMovie = false;
 			for(Tuple movie: movieList){
 				String title = (String) movie.get(0);
-				if(content.toLowerCase().contains(title.toLowerCase())){
+				if(content != null && title != null && content.toLowerCase().contains(" "+title.toLowerCase()+" ")){
 					docContainsMovie = true;
 					break;
 				}

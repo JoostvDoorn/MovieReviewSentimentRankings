@@ -51,7 +51,6 @@ public class MoviesInDocument extends EvalFunc<DataBag> {
 				}
 			}
 
-				
 			return movieDocuments;
 		} catch (ExecException ee) {
 			throw new IOException("Caught exception processing input row ", ee);
