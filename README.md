@@ -30,7 +30,7 @@ Old Pig file that tries to create Movie-Sentence pairs and convert them to a Sen
 Listed Pig Scripts make use of the following Java-based UDF's:
 
 ### IsMovieDocument.java
-A FilterFunc UDF that receives a document content (as String) and a DataBag of movie titles. Returns True in case the document content contains (case insensitive) one of the movie titles, returns false otherwise. 
+A FilterFunc UDF that receives a web document (as String) and a DataBag of movie titles. Returns True in case the document content contains (case insensitive) one of the movie titles, returns false otherwise. 
 
 ### IsNotWord.java
 A FilterFunc UDF that receives a movie title (as String) and a DataBag of English words. Returns True in movie title string is longer than five characters and does not match an English word, returns false otherwise.
@@ -39,5 +39,7 @@ A FilterFunc UDF that receives a movie title (as String) and a DataBag of Englis
 Deprecated EvalFunc UDF. Use ToMovieSentencePairs UDF instead.
 
 ### ToMovieSentencePairs.java
+A FilterFunc UDF that receives a web document (as String) and a DataBag of movie titles. Returns a DataBag of all Tuples of movie title and sentences in the document where the sentence contains the movie title in the tuple and the movie title is an element of the input movies DataBag.
 
 ### ToSentiment.java
+A FilterFunc UDF that receives a movie and a sentence. Returns a Tuple of movie and sentiment by applying the StanfordCoreNLP sentiment analysis functionality to the given sentence.
