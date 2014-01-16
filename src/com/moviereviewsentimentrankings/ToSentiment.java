@@ -69,6 +69,7 @@ public class ToSentiment extends EvalFunc<Tuple> {
 		    	int longest = 0;
 		        Annotation annotation = pipeline.process(content);
 		        for (CoreMap cm : annotation.get(CoreAnnotations.SentencesAnnotation.class)) {
+		            progress();
 		        	Tree tree = cm.get(SentimentCoreAnnotations.AnnotatedTree.class);
 		            int sentiment = RNNCoreAnnotations.getPredictedClass(tree);
 		            String partText = content.toString();
