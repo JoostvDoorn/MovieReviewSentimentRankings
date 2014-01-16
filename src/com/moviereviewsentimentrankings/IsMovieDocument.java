@@ -19,7 +19,7 @@ public class IsMovieDocument extends FilterFunc {
     		String content = (String) input.get(0);
     		
 			DataBag movieList = (DataBag) input.get(1);
-
+			reporter.progress();
 			// Document checken op filmnaam
 			boolean docContainsMovie = false;
 			for(Tuple movie: movieList){
