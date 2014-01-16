@@ -1,7 +1,5 @@
-register ../commoncrawl-examples/lib/*.jar; 
 
-register ../commoncrawl-examples/dist/lib/commoncrawl-examples-1.0.1-HM.jar;
-register ../dist/lib/movierankings-1.jar
+register ../dist/lib/movierankings-1.jar;
 register ../lib/piggybank.jar;
 register ../lib/stanford-corenlp-full-2014-01-04/stanford-corenlp-3.3.1.jar;
 register ../lib/stanford-corenlp-full-2014-01-04/stanford-corenlp-3.3.1-models.jar;
@@ -19,16 +17,7 @@ DEFINE SequenceFileLoader org.apache.pig.piggybank.storage.SequenceFileLoader();
 
 -- LOAD pages, movies and words
 pages = LOAD '/data/public/common-crawl/award/testset/1346876860611/textData-*' USING SequenceFileLoader as (url:chararray, content:chararray);
-movies = LOAD 'data/movieTitlesTop100.txt' USING PigStorage('\t') as (movie:chararray);
-words = LOAD 'data/brit-a-z.txt' USING PigStorage('\t') as (word:chararray);
-
--- GROUP movies and words
-movies_grp = GROUP movies ALL;
-words_grp = GROUP words ALL;
-
--- FILTER movies with English dictionary and title > 5 characters and GROUP result
-movies_fltr = FILTER movies BY IsNotWord(movie, words_grp.words);
-movies_fltr_grp = GROUP movies_fltr ALL;
+movies_fltr_grp = LOAD '/user/utmbd01/data/movie_fltr_grp/part-*' as (group: chararray,movies_fltr: {(movie: chararray)});
 
 -- FILTER pages containing movie
 movie_pages = FILTER pages BY IsMovieDocument(content, movies_fltr_grp.movies_fltr);
@@ -44,4 +33,4 @@ movie_sentiment_grp_tups = GROUP movie_sentiment BY movie;
 
 -- Reformat and print movie-sentiment pairs
 movie_sentiment_grp = FOREACH movie_sentiment_grp_tups GENERATE group, movie_sentiment.sentiment;
-store movie_sentiment_grp;
+store movie_sentiment_grp INTO 'results/movie_sentiment_grp';
