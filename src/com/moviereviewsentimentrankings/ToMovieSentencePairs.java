@@ -61,6 +61,7 @@ public class ToMovieSentencePairs extends EvalFunc<DataBag> {
 						movies.add(title);
 				}
 				for(String movieTitle: movies){
+		            progress();
 					Tuple tuple = mTupFactory.newTuple();
 					tuple.append(movieTitle);
 					tuple.append(sentence);
