@@ -1,12 +1,12 @@
 
-register ../dist/lib/movierankings-1.jar;
-register ../lib/piggybank.jar;
-register ../lib/stanford-corenlp-full-2014-01-04/stanford-corenlp-3.3.1.jar;
-register ../lib/stanford-corenlp-full-2014-01-04/stanford-corenlp-3.3.1-models.jar;
-register ../lib/stanford-corenlp-full-2014-01-04/ejml-0.23.jar;
-register ../lib/stanford-corenlp-full-2014-01-04/joda-time.jar;
-register ../lib/stanford-corenlp-full-2014-01-04/jollyday.jar;
-register ../lib/stanford-corenlp-full-2014-01-04/xom.jar;
+register hdfs://p-head03.alley.sara.nl:8020/user/utmbd01/lib/movierankings-1.jar;
+register hdfs://p-head03.alley.sara.nl:8020/user/utmbd01/lib/piggybank.jar;
+register hdfs://p-head03.alley.sara.nl:8020/user/utmbd01/lib/stanford-corenlp-full-2014-01-04/stanford-corenlp-3.3.1.jar;
+register hdfs://p-head03.alley.sara.nl:8020/user/utmbd01/lib/stanford-corenlp-full-2014-01-04/stanford-corenlp-3.3.1-models.jar;
+register hdfs://p-head03.alley.sara.nl:8020/user/utmbd01/lib/stanford-corenlp-full-2014-01-04/ejml-0.23.jar;
+register hdfs://p-head03.alley.sara.nl:8020/user/utmbd01/lib/stanford-corenlp-full-2014-01-04/joda-time.jar;
+register hdfs://p-head03.alley.sara.nl:8020/user/utmbd01/lib/stanford-corenlp-full-2014-01-04/jollyday.jar;
+register hdfs://p-head03.alley.sara.nl:8020/user/utmbd01/lib/stanford-corenlp-full-2014-01-04/xom.jar;
 
 DEFINE IsNotWord com.moviereviewsentimentrankings.IsNotWord;
 DEFINE IsMovieDocument com.moviereviewsentimentrankings.IsMovieDocument;

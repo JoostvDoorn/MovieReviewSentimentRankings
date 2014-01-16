@@ -8,7 +8,7 @@ DEFINE ToSentiment com.moviereviewsentimentrankings.ToSentiment;
 DEFINE MoviesInDocument com.moviereviewsentimentrankings.MoviesInDocument;
 
 -- LOAD pages, movies and words
-movies = LOAD 'data/movieTitlesTop100.txt' USING PigStorage('\t') as (movie:chararray);
+movies = LOAD 'data/movieTitlesTop250.txt' USING PigStorage('\t') as (movie:chararray);
 words = LOAD 'data/brit-a-z.txt' USING PigStorage('\t') as (word:chararray);
 
 -- GROUP movies and words

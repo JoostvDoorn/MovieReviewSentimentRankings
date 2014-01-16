@@ -19,7 +19,7 @@ DEFINE SequenceFileLoader org.apache.pig.piggybank.storage.SequenceFileLoader();
 
 -- LOAD pages, movies and words
 pages = LOAD '/home/participant/data/textData-*' USING SequenceFileLoader as (url:chararray, content:chararray);
-movies = LOAD '../data/movieTitlesTop100.txt' USING PigStorage('\t') as (movie:chararray);
+movies = LOAD '../data/movieTitlesTop250.txt' USING PigStorage('\t') as (movie:chararray);
 words = LOAD '../data/brit-a-z.txt' USING PigStorage('\t') as (word:chararray);
 
 -- GROUP movies and words
