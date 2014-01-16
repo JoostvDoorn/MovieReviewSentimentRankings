@@ -25,3 +25,19 @@ Old Pig file that tries to create Movie-Sentence pairs and convert them to a Sen
 
 ### movieTitleExtractionWithAllMoviesCount.pig
 Old Pig file that tries to create Movie-Sentence pairs and convert them to a Sentiment list per Movie. This Pig file is currently broken and should not be used, generate generateGroupedSentimentsByMovie.pig instead.
+
+## User Defined Functions
+Listed Pig Scripts make use of the following Java-based UDF's:
+
+### IsMovieDocument.java
+A FilterFunc UDF that receives a document content (as String) and a DataBag of movie titles. Returns True in case the document content contains (case insensitive) one of the movie titles, returns false otherwise. 
+
+### IsNotWord.java
+A FilterFunc UDF that receives a movie title (as String) and a DataBag of English words. Returns True in movie title string is longer than five characters and does not match an English word, returns false otherwise.
+
+### MoviesInDocument.java
+Deprecated EvalFunc UDF. Use ToMovieSentencePairs UDF instead.
+
+### ToMovieSentencePairs.java
+
+### ToSentiment.java
