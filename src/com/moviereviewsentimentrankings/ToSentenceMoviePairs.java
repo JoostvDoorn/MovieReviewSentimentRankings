@@ -49,15 +49,18 @@ public class ToSentenceMoviePairs extends EvalFunc<DataBag> {
 			      sentenceSb.append(token);
 			   }
 			   String sentenceS = sentenceSb.toString();
+			   // Only look at documents with sentences shorter than 300 characters
+			   if (sentenceS.length() < 300){
 			   // Document checken op filmnaam
-				for(Tuple movie: movieList){
-					reporter.progress();
-					String title = (String) movie.get(0);
-					if(sentenceS != null && title != null && sentenceS.toLowerCase().contains(" "+title.toLowerCase()+" ")) {
-						Tuple tuple = mTupFactory.newTuple();
-						tuple.append(sentenceS);
-						tuple.append(title);
-						movieSentenceTuples.add(tuple);
+					for(Tuple movie: movieList){
+						reporter.progress();
+						String title = (String) movie.get(0);
+						if(sentenceS != null && title != null && sentenceS.toLowerCase().contains(" "+title.toLowerCase()+" ")) {
+							Tuple tuple = mTupFactory.newTuple();
+							tuple.append(sentenceS);
+							tuple.append(title);
+							movieSentenceTuples.add(tuple);
+						}
 					}
 				}
 			}
