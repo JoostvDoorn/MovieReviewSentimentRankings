@@ -1,4 +1,5 @@
-set job.name 'Movie Sentiment Extraction'
+set job.name 'Movie Sentiment Extraction';
+set mapred.min.split.size 32;
 
 register ../dist/lib/movierankings-1.jar
 register ../lib/piggybank.jar;
@@ -8,6 +9,7 @@ register ../lib/stanford-corenlp-full-2014-01-04/ejml-0.23.jar;
 register ../lib/stanford-corenlp-full-2014-01-04/joda-time.jar;
 register ../lib/stanford-corenlp-full-2014-01-04/jollyday.jar;
 register ../lib/stanford-corenlp-full-2014-01-04/xom.jar;
+
 
 DEFINE ToSentiment com.moviereviewsentimentrankings.ToSentiment;
 DEFINE SequenceFileLoader org.apache.pig.piggybank.storage.SequenceFileLoader();
@@ -24,4 +26,4 @@ movie_sentiment_grp_tups = GROUP movie_sentiment BY movie;
 
 -- Reformat and store movie-sentiment pairs
 movie_sentiment_grp = FOREACH movie_sentiment_grp_tups GENERATE group, movie_sentiment.sentiment;
-store movie_sentiment_grp INTO 'results/movie_sentiment_grp_run_1';
+store movie_sentiment_grp INTO 'results/movie_sentiment_grp_run_2';
