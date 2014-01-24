@@ -28,7 +28,7 @@ public class ToSentenceMoviePairs extends EvalFunc<DataBag> {
 	@Override
 	public DataBag exec(Tuple input) throws IOException {
 		ExecutorService executor = Executors.newFixedThreadPool(1);
-		int timeout = 3000; // in ms
+		int timeout = 20000; // in ms
 		
 		if(input.get(0) == null) {
 			throw new IOException("Expected input to be chararray, but  got null");

@@ -16,7 +16,7 @@ DEFINE MoviesInDocument com.moviereviewsentimentrankings.MoviesInDocument;
 DEFINE SequenceFileLoader org.apache.pig.piggybank.storage.SequenceFileLoader();
 
 -- LOAD pages, movies and words
-pages = LOAD '/home/participant/data/textData-*' USING SequenceFileLoader as (url:chararray, content:chararray);
+pages = LOAD '../data/textData-00030' USING SequenceFileLoader as (url:chararray, content:chararray);
 movies = LOAD '../data/movieTitlesTop250.txt' USING PigStorage('\t') as (movie:chararray);
 words = LOAD '../data/brit-a-z.txt' USING PigStorage('\t') as (word:chararray);
 
@@ -36,4 +36,4 @@ movie_pages = FILTER pages BY IsMovieDocument(content, movies_fltr_grp.movies_fl
 movie_sentences = FOREACH movie_pages GENERATE flatten(ToSentenceMoviePairs(content, movies_fltr_grp.movies_fltr)) as (content:chararray, movie:chararray);
 
 -- movie_sentences: {content: chararray,movie: chararray}
-store movie_sentences INTO 'results/movie_sentences';
+store movie_sentences INTO 'results/movie_sentences_happy';

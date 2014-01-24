@@ -16,7 +16,7 @@ DEFINE ToSentiment com.moviereviewsentimentrankings.ToSentiment;
 DEFINE MoviesInDocument com.moviereviewsentimentrankings.MoviesInDocument;
 DEFINE SequenceFileLoader org.apache.pig.piggybank.storage.SequenceFileLoader();
 
--- LOAD pages, movies and words
+-- LOAD pages and movies
 pages = LOAD '/data/public/common-crawl/parse-output/segment/1346876860648/textData-0002*' USING SequenceFileLoader as (url:chararray, content:chararray);
 movies_fltr_grp = LOAD '/user/utmbd01/data/movie_fltr_grp_250/part-*' as (group: chararray,movies_fltr: {(movie: chararray)});
 
@@ -32,6 +32,6 @@ movie_sentiment = FOREACH movie_sentences GENERATE flatten(ToSentiment(movie, co
 -- GROUP movie-sentiment pairs by movie
 movie_sentiment_grp_tups = GROUP movie_sentiment BY movie;
 
--- Reformat and print movie-sentiment pairs
+-- Reformat and store movie-sentiment pairs
 movie_sentiment_grp = FOREACH movie_sentiment_grp_tups GENERATE group, movie_sentiment.sentiment;
 store movie_sentiment_grp INTO 'results/movie_sentiment_grp_250';

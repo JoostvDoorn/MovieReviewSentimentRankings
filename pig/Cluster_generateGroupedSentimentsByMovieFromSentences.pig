@@ -9,12 +9,12 @@ register ../lib/stanford-corenlp-full-2014-01-04/joda-time.jar;
 register ../lib/stanford-corenlp-full-2014-01-04/jollyday.jar;
 register ../lib/stanford-corenlp-full-2014-01-04/xom.jar;
 
-DEFINE MoviesInDocument com.moviereviewsentimentrankings.MoviesInDocument;
+DEFINE ToSentiment com.moviereviewsentimentrankings.ToSentiment;
 DEFINE SequenceFileLoader org.apache.pig.piggybank.storage.SequenceFileLoader();
 
 -- LOAD sentences, movies
 movies_fltr_grp = LOAD '/user/utmbd01/data/movie_fltr_grp_250/part-*' as (group: chararray,movies_fltr: {(movie: chararray)});
-movie_sentences = LOAD '/user/utmbd01/results/movie_sentences4/part-*' as {content: chararray,movie: chararray}
+movie_sentences = LOAD '/user/utmbd01/results/movie_sentences4/part-*' as (content:chararray, movie:chararray);
 
 -- Calculate sentiment for each movie-sentence pair
 movie_sentiment = FOREACH movie_sentences GENERATE flatten(ToSentiment(movie, content)) as (movie:chararray, sentiment:int);
