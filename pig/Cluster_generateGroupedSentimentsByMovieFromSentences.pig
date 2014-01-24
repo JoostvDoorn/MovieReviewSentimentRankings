@@ -11,6 +11,7 @@ register ../lib/stanford-corenlp-full-2014-01-04/joda-time.jar;
 register ../lib/stanford-corenlp-full-2014-01-04/jollyday.jar;
 register ../lib/stanford-corenlp-full-2014-01-04/xom.jar;
 
+
 DEFINE ToSentiment com.moviereviewsentimentrankings.ToSentiment;
 DEFINE SequenceFileLoader org.apache.pig.piggybank.storage.SequenceFileLoader();
 
@@ -25,4 +26,9 @@ movie_sentiment_grp_tups = GROUP movie_sentiment BY movie;
 
 -- Reformat and store movie-sentiment pairs
 movie_sentiment_grp = FOREACH movie_sentiment_grp_tups GENERATE group, movie_sentiment.sentiment;
+<<<<<<< HEAD
 store movie_sentiment_grp INTO 'results/from_sentiments_with_DocumentFilter_all';
+=======
+
+store movie_sentiment_grp INTO 'results/movie_sentiment_grp_run_3';
+>>>>>>> 9a57dbd48e23e80a46fedfd1a3cf788ab6843883
