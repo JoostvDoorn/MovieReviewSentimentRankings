@@ -17,7 +17,7 @@ DEFINE SequenceFileLoader org.apache.pig.piggybank.storage.SequenceFileLoader();
 
 -- LOAD pages, movies and words
 pages = LOAD '/data/public/common-crawl/parse-output/segment/1346876860648/textData-0002*' USING SequenceFileLoader as (url:chararray, content:chararray);
-movies_fltr_grp = LOAD '/user/utmbd01/data/movie_fltr_grp/part-*' as (group: chararray,movies_fltr: {(movie: chararray)});
+movies_fltr_grp = LOAD '/user/utmbd01/data/movie_fltr_grp_250/part-*' as (group: chararray,movies_fltr: {(movie: chararray)});
 
 -- FILTER pages containing movie
 movie_pages = FILTER pages BY IsMovieDocument(content, movies_fltr_grp.movies_fltr);
@@ -33,4 +33,4 @@ movie_sentiment_grp_tups = GROUP movie_sentiment BY movie;
 
 -- Reformat and print movie-sentiment pairs
 movie_sentiment_grp = FOREACH movie_sentiment_grp_tups GENERATE group, movie_sentiment.sentiment;
-store movie_sentiment_grp INTO 'results/movie_sentiment_grp2';
+store movie_sentiment_grp INTO 'results/movie_sentiment_grp_250';
