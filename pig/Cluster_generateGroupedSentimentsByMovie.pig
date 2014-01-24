@@ -1,3 +1,4 @@
+set job.name 'Movie Sentiment Extraction'
 
 register ../dist/lib/movierankings-1.jar
 register ../lib/piggybank.jar;
