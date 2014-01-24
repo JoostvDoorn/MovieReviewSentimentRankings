@@ -10,7 +10,7 @@ register ../lib/stanford-corenlp-full-2014-01-04/jollyday.jar;
 register ../lib/stanford-corenlp-full-2014-01-04/xom.jar;
 
 DEFINE IsNotWord com.moviereviewsentimentrankings.IsNotWord;
-DEFINE IsMovieDocument com.moviereviewsentimentrankings.IsMovieDocument;
+DEFINE DocumentFilter com.moviereviewsentimentrankings.DocumentFilter;
 DEFINE ToSentenceMoviePairs com.moviereviewsentimentrankings.ToSentenceMoviePairs;
 DEFINE ToSentiment com.moviereviewsentimentrankings.ToSentiment;
 DEFINE MoviesInDocument com.moviereviewsentimentrankings.MoviesInDocument;
@@ -21,7 +21,7 @@ pages = LOAD '/data/public/common-crawl/parse-output/segment/1346876860648/textD
 movies_fltr_grp = LOAD '/user/utmbd01/data/movie_fltr_grp_250/part-*' as (group: chararray,movies_fltr: {(movie: chararray)});
 
 -- FILTER pages containing movie
-movie_pages = FILTER pages BY IsMovieDocument(content, movies_fltr_grp.movies_fltr);
+movie_pages = FILTER pages BY DocumentFilter(content, movies_fltr_grp.movies_fltr);
 
 -- SPLIT pages containing movie in sentences and create movie-sentence pairs
 movie_sentences = FOREACH movie_pages GENERATE flatten(ToSentenceMoviePairs(content, movies_fltr_grp.movies_fltr)) as (content:chararray, movie:chararray);
