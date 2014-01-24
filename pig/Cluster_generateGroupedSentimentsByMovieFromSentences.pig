@@ -1,4 +1,6 @@
-set job.name 'Movie Sentiment Extraction'
+SET job.name 'Movie Sentiment Extraction';
+-- should result in +- 15 mappers 
+SET pig.maxCombinedSplitSize 10000000;
 
 register ../dist/lib/movierankings-1.jar
 register ../lib/piggybank.jar;
@@ -13,7 +15,7 @@ DEFINE ToSentiment com.moviereviewsentimentrankings.ToSentiment;
 DEFINE SequenceFileLoader org.apache.pig.piggybank.storage.SequenceFileLoader();
 
 -- LOAD sentences, movies
-movie_sentences = LOAD '/user/utmbd01/results/movie_sentences5/part-*' as (content:chararray, movie:chararray);
+movie_sentences = LOAD '/user/utmbd01/results/movie_sentences_run1/part-*' as (content:chararray, movie:chararray);
 
 -- Calculate sentiment for each movie-sentence pair
 movie_sentiment = FOREACH movie_sentences GENERATE flatten(ToSentiment(movie, content)) as (movie:chararray, sentiment:int);
@@ -23,4 +25,4 @@ movie_sentiment_grp_tups = GROUP movie_sentiment BY movie;
 
 -- Reformat and store movie-sentiment pairs
 movie_sentiment_grp = FOREACH movie_sentiment_grp_tups GENERATE group, movie_sentiment.sentiment;
-store movie_sentiment_grp INTO 'results/from_sentiments_with_DocumentFilter';
+store movie_sentiment_grp INTO 'results/from_sentiments_with_DocumentFilter_all';
