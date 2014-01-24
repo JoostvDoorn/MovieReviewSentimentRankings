@@ -1,5 +1,5 @@
 SET job.name 'Movie Sentiment Extraction';
--- should result in +- 15 mappers 
+-- should result in +- 8 mappers. do not set this value much lower, SurfSARA won't like that.
 SET pig.maxCombinedSplitSize 10000000;
 
 register ../dist/lib/movierankings-1.jar
