@@ -15,14 +15,14 @@ DEFINE MoviesInDocument com.moviereviewsentimentrankings.MoviesInDocument;
 DEFINE SequenceFileLoader org.apache.pig.piggybank.storage.SequenceFileLoader();
 
 -- LOAD pages, movies and words
-pages = LOAD '/data/public/common-crawl/parse-output/segment/1346876860648/textData-000*' USING SequenceFileLoader as (url:chararray, content:chararray);
+pages = LOAD '/data/public/common-crawl/parse-output/segment/1346876860648/textData-*' USING SequenceFileLoader as (url:chararray, content:chararray);
 movies_fltr_grp = LOAD '/user/utmbd01/data/movie_fltr_grp/part-*' as (group: chararray,movies_fltr: {(movie: chararray)});
 
 -- FILTER pages containing movie
-movie_pages = FILTER pages BY DocumentFilter(content, movies_fltr_grp.movies_fltr);
+movie_pages = FmovieILTER pages BY DocumentFilter(content, movies_fltr_grp.movies_fltr);
 
 -- SPLIT pages containing movie in sentences and create movie-sentence pairs
 movie_sentences = FOREACH movie_pages GENERATE flatten(ToSentenceMoviePairs(content, movies_fltr_grp.movies_fltr)) as (content:chararray, movie:chararray);
-
+movie_sentences_not_nulls = FILTER movie_sentences BY content is not null;
 -- movie_sentences: {content: chararray,movie: chararray}
-store movie_sentences INTO 'results/movie_sentences5';
+store movie_sentences_not_nulls INTO 'results/movie_sentences_run1';
