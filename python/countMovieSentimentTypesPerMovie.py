@@ -34,7 +34,7 @@ for movie in csv.reader(results, delimiter='\t'):
 output_path = result_path +'_result'
 result_tsv = open(os.path.join(os.getcwd(), output_path), 'w')
 # write header row
-result_tsv.write('movie_name, 0, 1, 2, 3, 4, -2, rating, revenue\n')
+result_tsv.write('movie_name, #0, #1, #2, #3, #4, #timeout, rating, revenue\n')
 # write data rows
 for k0, v0 in movie_dict.items():
 	result_tsv.write(k0)
