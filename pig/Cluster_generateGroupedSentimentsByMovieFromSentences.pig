@@ -1,6 +1,6 @@
 SET job.name 'Movie Sentiment Extraction';
 -- should result in +- 8 mappers. do not set this value much lower, SurfSARA won't like that.
-SET pig.maxCombinedSplitSize 10000000;
+SET pig.maxCombinedSplitSize 9000000;
 
 register ../dist/lib/movierankings-1.jar
 register ../lib/piggybank.jar;
@@ -26,9 +26,4 @@ movie_sentiment_grp_tups = GROUP movie_sentiment BY movie;
 
 -- Reformat and store movie-sentiment pairs
 movie_sentiment_grp = FOREACH movie_sentiment_grp_tups GENERATE group, movie_sentiment.sentiment;
-<<<<<<< HEAD
 store movie_sentiment_grp INTO 'results/from_sentiments_with_DocumentFilter_all';
-=======
-
-store movie_sentiment_grp INTO 'results/movie_sentiment_grp_run_3';
->>>>>>> 9a57dbd48e23e80a46fedfd1a3cf788ab6843883
