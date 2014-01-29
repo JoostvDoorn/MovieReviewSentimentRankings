@@ -1,10 +1,14 @@
 import csv
 import os
 import re
+import sys
 from collections import Counter, OrderedDict
 
+# Omgaan met veel sentimenten
+csv.field_size_limit(90000000)
+
 # Vervang door path van te analyzeren run-output
-result_path = 'results/runFailedOp10'
+result_path = 'results/complete_cluster_run'
 ratings_path =  'data/movieData250.txt'
 results = open(os.path.join(os.getcwd(), result_path), 'r')
 ratings = open(os.path.join(os.getcwd(), ratings_path), 'r')
