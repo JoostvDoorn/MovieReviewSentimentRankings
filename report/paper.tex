@@ -60,6 +60,28 @@ Using a user-defined function (UDF) in Pig we filter the Text Only files (contai
 Socher et al \cite{Socher2013} made their recursive neural tensor network sentence-level sentiment analysis model for predicting review sentiment publicly available as part of the Stanford CoreNLP library. We use this sentiment analysis model to construct movie sentiment key-value pairs for each sentence, with sentiment being an element from the set \texttt{\{\mbox{---},--,0,+,\mbox{++}\}}. A reduce task transforms these movie sentiment pairs into counts of the different sentiment categories for each movie. 
 
 We will use Kendall's tau\cite{Kendall1938} as measure of accordance between movie sentiments and box office revenue and IMDb rating. Using the AS71 algorithm proposed by Best and Gipps\cite{Best1974}, we can calculate the p-value for rejecting the null hypothesis based on the Kendall's tau statistic. Levels of accordance will be tested for percentage of a movie's 'very negative'-sentiments and 'very positive'-sentiments on the one hand and its box office revenue and IMDb rating on the other hand, therefore we state the following hypotheses:
+\begin{itemize}\itemsep1pt \parskip0pt \parsep0pt
+	\item H0: the relation 'very positive'-percentage and box office revenue
+	\begin{itemize}\itemsep1pt \parskip0pt \parsep0pt
+		\item $H0_0$: There does not exist any correlation between 'very positive'-\% and box office revenue
+		\item $H0_1$: There does exist a correlation between 'very positive'-\% and box office revenue
+	\end{itemize}
+	\item H1: the relation 'very negative'-percentage and box office revenue
+	\begin{itemize}\itemsep1pt \parskip0pt \parsep0pt
+		\item $H1_0$: There does not exist any correlation between 'very negative'-\% and box office revenue
+		\item $H1_1$: There does exist a correlation between 'very negative'-\% and box office revenue
+	\end{itemize}
+	\item H2: the relation 'very positive'-percentage and IMDb rating
+	\begin{itemize}\itemsep1pt \parskip0pt \parsep0pt
+		\item $H2_0$: There does not exist any correlation between 'very positive'-\% and IMDb rating
+		\item $H2_1$: There does exist a correlation between 'very positive'-\% and IMDb rating
+	\end{itemize}
+	\item H3: the relation 'very negative'-percentage and IMDb rating
+	\begin{itemize}\itemsep1pt \parskip0pt \parsep0pt
+		\item $H3_0$: There does not exist any correlation between 'very negative'-\% and IMDb rating
+		\item $H3_1$: There does exist a correlation between 'very negative'-\% and IMDb rating
+	\end{itemize}
+\end{itemize}
 
 The Pig files, the Pig User Defined Functions, the R script for the statistical analysis and other source files are publicly available on our GitHub repository\footnote{https://github.com/JoostvDoorn/MovieReviewSentimentRankings}.
 
