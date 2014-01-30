@@ -88,7 +88,7 @@ Hypotheses listed are tested on a 5\%-significance level.
 The Pig files, the Pig User Defined Functions, the R script for the statistical analysis and other source files are publicly available on our GitHub repository\footnote{https://github.com/JoostvDoorn/MovieReviewSentimentRankings}.
 
 \section{Results}
-In about 16 hours the SURFsara Hadoop cluster processed the Common Crawl data set and extracted sentiment sets for each movie. 17 parallel map tasks were running throughout the process. Shorter processing times would have been possible by setting the split factor such that more parallel map tasks would have been used, but did not want to put more load on the cluster than needed. We used a python script to group the sentiments of each movie into counts for each sentiment category. Table \ref{tab:hypothesis_tests} displays the results of the statistical tests performed on the extracted data.
+In about 16 hours the SURFsara Hadoop cluster processed the Common Crawl data set and extracted sentiment sets for each movie. 17 parallel map tasks were running throughout the process. Shorter processing times would have been possible by setting the split factor such that more parallel map tasks would have been used, but did not want to put more load on the cluster than needed. We used a python script to group the sentiments of each movie into counts for each sentiment category. In total we processed almost half a million sentences. A time-out in the sentiment analysis UDF of 3000ms caused the sentiment analysis of 42.9\% of all sentences to time-out. Table \ref{tab:hypothesis_tests} displays the results of the statistical tests performed on the extracted data.
 \begin{table}[!h!p]
 \begin{tabular}{l|lll}
 Hypothesis & Kendall's $\tau$ & p-value (2-sid.) & Reject $H_0$?\\
@@ -109,7 +109,7 @@ Our approach does not attempt to do a thorough filtering of the sentences set to
 
 By investigating a sample of the input of the sentiment analyzer we found that most of the sentences were not related to the movie title found in that sentence. It was most often related to something else or not a good indicator of sentiment. Even though we only looked at a small sample of the sentences compared to the whole dataset, a better selection of relevant sentences is likely to improve performance.
 
-\section{Acknowledgment}
+\section{Acknowledgement}
 Our special thanks to Dr. Djoerd Hiemstra for his supervision throughout the research as our supervisor and to IMDb for making the movie ratings available. Furthermore we would like to thank SURFsara for allowing us to run computations on their Hadoop cluster.
 %
 % The following two commands are all you need in the
