@@ -56,20 +56,27 @@ Old Pig file that tries to create Movie-Sentence pairs and convert them to a Sen
 ## User Defined Functions
 Listed Pig Scripts make use of the following Java-based UDF's:
 
-### IsMovieDocument.java
-A FilterFunc UDF that receives a web document (as String) and a DataBag of movie titles. Returns True in case the document content contains (case insensitive) one of the movie titles, returns false otherwise. 
+### DocumentFilter.java
+A FilterFunc UDF that tries to filter out documents that are not English. It basically checks if the document contains any of a set of common English words.
 
 ### IsNotWord.java
 A FilterFunc UDF that receives a movie title (as String) and a DataBag of English words. Returns True in movie title string is longer than five characters and does not match an English word, returns false otherwise.
 
 ### MoviesInDocument.java
-Deprecated EvalFunc UDF. Use ToMovieSentencePairs UDF instead.
+Determines if a movie is contained in the document.
 
-### ToMovieSentencePairs.java
-A FilterFunc UDF that receives a web document (as String) and a DataBag of movie titles. Returns a DataBag of all Tuples of movie title and sentences in the document where the sentence contains the movie title in the tuple and the movie title is an element of the input movies DataBag.
+### ToSentenceMoviePairs.java
+An EvalFunc UDF that receives a web document (as String) and a DataBag of movie titles. Returns a DataBag of all Tuples of sentences and movie titles in the document where the sentence contains the movie title in the tuple and the movie title is an element of the input movies DataBag.
 
 ### ToSentiment.java
 A FilterFunc UDF that receives a movie and a sentence. Returns a Tuple of movie and sentiment by applying the StanfordCoreNLP sentiment analysis functionality to the given sentence.
+
+### IsMovieDocument.java (deprecated)
+A FilterFunc UDF that receives a web document (as String) and a DataBag of movie titles. Returns True in case the document content contains (case insensitive) one of the movie titles, returns false otherwise. 
+
+### ToMovieSentencePairs.java (deprecated)
+An EvalFunc UDF that receives a web document (as String) and a DataBag of movie titles. Returns a DataBag of all Tuples of movie title and sentences in the document where the sentence contains the movie title in the tuple and the movie title is an element of the input movies DataBag.
+**Deprecated: replaced by ToSentenceMoviePairs for more favorable distribution over mappers**
 
 # About
 This collection of pig scripts and user defined functions is created for the Managing Big Data course at the [University of Twente](http://www.utwente.nl/). We used the [SURFsara hadoop cluster](https://www.surfsara.nl/nl/systems/hadoop) to run our MapReduce jobs in a timely manner. Included is a short paper documenting our method and results.
