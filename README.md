@@ -1,27 +1,27 @@
 # MovieReviewSentimentRankings
 
-This collection of Pig scripts can be used to analyse the sentiment (using [stanford core nlp](nlp.stanford.edu/software/corenlp.shtml)) on a set of [IMDb](http://www.imdb.com) movies on the [Common Crawl web crawl](http://commoncrawl.org/).
+This collection of Pig scripts can be used to analyse the sentiment (using [Stanford CoreNLP](nlp.stanford.edu/software/corenlp.shtml)) on a set of [IMDb](http://www.imdb.com) movies on the [Common Crawl web crawl](http://commoncrawl.org/).
 The results of the movie sentiment analysis on the web is gathered with the aim to calculate the agreement of movie sentiment on the web with movie sales performance and IMDb rating.
-A subset of over 500 000 movies of IMDb is used as input (but note that the current version only considers the top 250).
+A subset of over 500,000 movies of IMDb is used as input (but note that the current version only considers the top 250).
 See report/paper.tex for a more elaborate introduction.
 
 ## Setup
-To get started you should have an environment ready which includes pig and hadoop. We used the [Norvig Award VM image](http://norvigaward.github.io/). Before building first run ```./coreNLP.sh``` to download the stanford core nlp library. Now you can build the project (we used Eclipse).
+To get started you should have an environment ready which includes Pig and Apache Hadoop. We used the [Norvig Award VM image](http://norvigaward.github.io/). Before building first run ```./coreNLP.sh``` to download the Stanford CoreNLP library. Now you can build the project (we used Eclipse).
 
 ## Pig files
 The following Pig scripts are included in this project:
 
 ### Cluster scripts
-These pig scripts were designed to run on the SARA cluster and contain paths specific to the configuration of that cluster.
+These Pig scripts were designed to run on the SARA cluster and contain paths specific to the configuration of that cluster.
 
 #### Cluster_generateGroupedMovies.pig
 Loads the movie set from the SARA HDFS and performs filtering operations. This filtering includes deletion of movie titles exactly match English words (to prevent noise data that match the movie title in a non-movie related context) and movie titles shorter than 5 characters (as very short character sequences tend to occur very often on the web, often in a non-movie related context). This script stores a DataBag containing all filtered and grouped movies on the SARA HDFS. 
 
 #### Cluster_generateGroupedSentimentsByMovie.pig
-Loads a DataBag with filtered and grouped movies and creates sentiment lists grouped by movie. Run Cluster_generateGroupedMovies.pig first to create the needed DataBag on the SARA HDFS. Since this pig scripts generates multiple map reduce jobs we split them into three seperate pig files.
+Loads a DataBag with filtered and grouped movies and creates sentiment lists grouped by movie. Run Cluster_generateGroupedMovies.pig first to create the needed DataBag on the SARA HDFS. Since this Pig scripts generates multiple MapReduce jobs we split them into three seperate Pig files.
 
 #### Cluster_generateGroupedSentimentsByMovieFromSentences.pig
-Loads tuples of sentences and movies generated in Cluster_generateMovieSentences.pig and performs a sentiment analysis on the sentences using the stanford core nlp library.
+Loads tuples of sentences and movies generated in Cluster_generateMovieSentences.pig and performs a sentiment analysis on the sentences using the Stanford CoreNLP library.
 
 #### Cluster_generateMovieSentences.pig
 Generates all sentences which contain movie names. Generates null values if the UDF times out.
@@ -30,7 +30,7 @@ Generates all sentences which contain movie names. Generates null values if the 
 Removes null values from the sentences set.
 
 ### Local files
-These files were created to test/debug the functionality locally. Paths in these pig scripts match the format in the VM provided by the Norvig Award (the 2012 award).
+These files were created to test/debug the functionality locally. Paths in these Pig scripts match the format in the VM provided by the Norvig Award (the 2012 award).
 
 #### countSentencesPerMovie.pig
 Generates sentence counts for each movie. Used during development of the movie list filter, to investigate any additional filters needed.
@@ -72,4 +72,4 @@ An EvalFunc UDF that receives a web document (as String) and a DataBag of movie 
 A FilterFunc UDF that receives a movie and a sentence. Returns a Tuple of movie and sentiment by applying the StanfordCoreNLP sentiment analysis functionality to the given sentence.
 
 # About
-This collection of pig scripts and user defined functions is created for the Managing Big Data course at the [University of Twente](http://www.utwente.nl/). We used the [SURFsara hadoop cluster](https://www.surfsara.nl/nl/systems/hadoop) to run our MapReduce jobs in a timely manner. Included is a short paper documenting our method and results.
+This collection of pig scripts and user defined functions is created for the Managing Big Data course at the [University of Twente](http://www.utwente.nl/). We used the [SURFsara Hadoop cluster](https://www.surfsara.nl/nl/systems/hadoop) to run our MapReduce jobs in a timely manner. Included is a short paper documenting our method and results.
