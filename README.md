@@ -71,12 +71,5 @@ An EvalFunc UDF that receives a web document (as String) and a DataBag of movie 
 ### ToSentiment.java
 A FilterFunc UDF that receives a movie and a sentence. Returns a Tuple of movie and sentiment by applying the StanfordCoreNLP sentiment analysis functionality to the given sentence.
 
-### IsMovieDocument.java (deprecated)
-A FilterFunc UDF that receives a web document (as String) and a DataBag of movie titles. Returns True in case the document content contains (case insensitive) one of the movie titles, returns false otherwise. 
-
-### ToMovieSentencePairs.java (deprecated)
-An EvalFunc UDF that receives a web document (as String) and a DataBag of movie titles. Returns a DataBag of all Tuples of movie title and sentences in the document where the sentence contains the movie title in the tuple and the movie title is an element of the input movies DataBag.
-**Deprecated: replaced by ToSentenceMoviePairs for more favorable distribution over mappers**
-
 # About
 This collection of pig scripts and user defined functions is created for the Managing Big Data course at the [University of Twente](http://www.utwente.nl/). We used the [SURFsara hadoop cluster](https://www.surfsara.nl/nl/systems/hadoop) to run our MapReduce jobs in a timely manner. Included is a short paper documenting our method and results.
