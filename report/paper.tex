@@ -12,11 +12,8 @@
 \usepackage{csquotes}% Recommended
 \usepackage{natbib}
 
-
 % tabel tool
 \usepackage{tabu}
-
-
 \usepackage{graphicx}
 \usepackage{subfig}
 
@@ -62,6 +59,8 @@ Using a user-defined function (UDF) in Pig we filter the Text Only files (contai
 
 Socher et al \cite{Socher2013} made their recursive neural tensor network sentence-level sentiment analysis model for predicting review sentiment publicly available as part of the Stanford CoreNLP library. We use this sentiment analysis model to construct movie sentiment key-value pairs for each sentence, with sentiment being an element from the set \texttt{\{\mbox{---},--,0,+,\mbox{++}\}} . A reduce task transforms these movie sentiment pairs into counts of the different sentiment categories for each movie. The Pig files, Pig User Defined Functions and other source files are publicly available on the GitHub repository\footnote{https://github.com/JoostvDoorn/MovieReviewSentimentRankings}.
 
+
+
 \section{Results}
 Due to some unexpected difficulties that arose on the SARA test set that did not occur before during local testing we do not have a finished run on the complete data set yet. We did manage to finish a run on 10 files; this test set run finished in 35 minutes.  After that we managed a run on 1000 files which finished in 44 minutes. We can say that an increase of the number of files is going to scale well on the cluster and are able to run the script on the full dataset of 25TB. We expect to find a correlation between the IMDb ratings and the general sentiment on the web. As IMDb is the most popular source for movie information, we expect their reviewers to be a fair representation of the general population. In the same sense we expect this of the Common Crawl dataset.
 
@@ -70,7 +69,18 @@ Due to some unexpected difficulties that arose on the SARA test set that did not
 
 Although we generally expect IMDb to reach a fair share of the general population, we do expect some differences. Some groups may be underrepresented on IMDb. This may be because this group prefers to use another website. This could cause some categories to get different ratings on IMDb than our analysis of the general web.
 
-
+\begin{verbatim}
+> Kendall(data$rating, data$p_4)
+tau = 0.146, 2-sided pvalue =0.10393
+> Kendall(data$rating, data$p_0)
+tau = 0.151, 2-sided pvalue =0.087175
+> Kendall(data$revenue, data$p_4)
+tau = -0.3, 2-sided pvalue =0.00045567
+> Kendall(data$revenue, data$p_0)
+tau = -0.246, 2-sided pvalue =0.0034272
+> sum(data$X.timeout)/(sum(data$X.timeout)+sum(data$X.0)+sum(data$X.1)+sum(data$X.2)+sum(data$X.3)+sum(data$X.4))
+[1] 0.4292227
+\end{verbatim}
 
 \section{Discussion}
 The online movie review sentiment analysis may be used in different ways. Movies can be ranked based on their sentiment. Sentiment can be used as a predictor of a movies success and will reach a reasonable sample size much faster than a single resource. 
