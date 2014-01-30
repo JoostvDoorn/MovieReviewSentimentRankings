@@ -103,8 +103,7 @@ $H3_0$ & -0.0499 & 0.61564 & No\\
 \end{table}
 
 \section{Discussion}
-The online movie review sentiment analysis may be used in different ways. Movies can be ranked based on their sentiment. Sentiment can be used as a predictor of a movies success and will reach a reasonable sample size much faster than a single resource. 
-Movies are likely to show different types of sentiment distributions which could be an indicator of the distribution of the fanbase, some movies may have loyal fans and just as many who absolutely hate a movie. 
+We could not find a significant correlation between the movie sentiment and either the IMDb ratings or revenue.
 
 Our approach does not attempt to do a thorough filtering of the sentences set to make sure that we really are matching a sentence that is about the movie as well as a good indicator of sentiment about the movie. For example, if "The Pianist" is found in a sentence, we currently assume that this is about the movie. For certain movies this is likely to work, since the title of the movie is uncommon in normal sentences and when considering a lot of data a few incorrect sentences do not matter that much. Though with our current results this assumption seems flawed, or at least we could not use this to our advantage. Still it is likely to work for some movies like "Forrest Gump" where we do not expect many out context sentences to be found, in contrast to a movie like "The General" (e.g. The General Terms and Conditions, the general assumption). In our current approach we seem to assume that a lot of data fixes everything, even if this data is not selected well.
 
