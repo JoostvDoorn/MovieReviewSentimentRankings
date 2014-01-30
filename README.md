@@ -1,9 +1,12 @@
 # MovieReviewSentimentRankings
 
-This collection of Pig scripts can be used to analyse the sentiment on a set of IMDb movies on the Common Crawl web crawl.
+This collection of Pig scripts can be used to analyse the sentiment (using [stanford core nlp](nlp.stanford.edu/software/corenlp.shtml)) on a set of [IMDb](http://www.imdb.com) movies on the [Common Crawl web crawl](http://commoncrawl.org/).
 The results of the movie sentiment analysis on the web is gathered with the aim to calculate the agreement of movie sentiment on the web with movie sales performance and IMDb rating.
 A subset of over 500 000 movies of IMDb is used as input (but note that the current version only considers the top 250).
 See report/paper.tex for a more elaborate introduction.
+
+## Setup
+To get started you should have an environment ready which includes pig and hadoop. We used the [Norvig Award VM image](http://norvigaward.github.io/). Before building first run ```./coreNLP.sh``` to download the stanford core nlp library. Now you can build the project (we used Eclipse).
 
 ## Getting started with the Pig files
 The following Pig scripts are included in this project:
@@ -43,3 +46,6 @@ A FilterFunc UDF that receives a web document (as String) and a DataBag of movie
 
 ### ToSentiment.java
 A FilterFunc UDF that receives a movie and a sentence. Returns a Tuple of movie and sentiment by applying the StanfordCoreNLP sentiment analysis functionality to the given sentence.
+
+# About
+This collection of pig scripts and user defined functions is created for the Managing Big Data course at the [University of Twente](http://www.utwente.nl/). We used the [SURFsara hadoop cluster](https://www.surfsara.nl/nl/systems/hadoop) to run our MapReduce jobs in a timely manner. Included is a short paper documenting our method and results.
