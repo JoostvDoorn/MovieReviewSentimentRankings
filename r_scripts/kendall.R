@@ -1,6 +1,6 @@
 setwd("D:/Git-data/MovieReviewSentimentRankings/results")
 library(Kendall)
-data = read.csv(paste(getwd(),"/runFailedOp10_result",sep=''), header = TRUE)
+data = read.csv(paste(getwd(),"/complete_cluster_run_result",sep=''), header = TRUE)
 data$p_4 <- data$X.4/(data$X.4+data$X.3+data$X.2+data$X.1+data$X.0)
 data$p_3 <- data$X.3/(data$X.4+data$X.3+data$X.2+data$X.1+data$X.0)
 data$p_2 <- data$X.2/(data$X.4+data$X.3+data$X.2+data$X.1+data$X.0)
