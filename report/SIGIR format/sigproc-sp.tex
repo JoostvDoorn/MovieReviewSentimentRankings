@@ -4,8 +4,8 @@
 \setlength{\leftmargini}{0pt}
 \begin{document}
 
-\title{Analyzing the correlation between Movie Sentiment and Sales Performance}
-\subtitle{Using MapReduce with Hadoop}
+\title{The correlation between Movie Sentiment and Sales Performance on the Web}
+\subtitle{An analysis using MapReduce}
 %
 % You need the command \numberofauthors to handle the 'placement
 % and alignment' of the authors beneath the title.
@@ -99,7 +99,7 @@ Using a user-defined function (UDF) in Apache Pig we filter the Text Only files 
 
 Socher et al \cite{Socher2013} made their recursive neural tensor network sentence-level sentiment analysis model for predicting review sentiment publicly available as part of the Stanford CoreNLP library. We use this sentiment analysis model to construct movie sentiment key-value pairs for each sentence, with sentiment being an element from the set \texttt{\{\mbox{---},--,0,+,\mbox{++}\}}. A reduce task transforms these movie sentiment pairs into counts of the different sentiment categories for each movie. 
 
-We will use Kendall's tau\cite{Kendall1938} as measure of accordance between movie sentiments and box office revenue and IMDb rating. Using the AS71 algorithm proposed by Best and Gipps\cite{Best1974}, we can calculate the p-value for rejecting the null hypothesis based on the Kendall's tau statistic. Levels of accordance will be tested for percentage of a movie's 'very negative'-sentiments and 'very positive'-sentiments on the one hand and its box office revenue and IMDb rating on the other hand, therefore we state the following hypotheses:
+We will use Kendall's $\tau$\cite{Kendall1938} as measure of accordance between movie sentiments and box office revenue and IMDb rating. Using the AS71 algorithm proposed by Best and Gipps\cite{Best1974}, we can calculate the p-value for rejecting the null hypothesis based on the Kendall's $\tau$ statistic. Levels of accordance will be tested for percentage of a movie's 'very negative'-sentiments and 'very positive'-sentiments on the one hand and its box office revenue and IMDb rating on the other hand, therefore we state the following hypotheses:
 \begin{itemize}\itemsep0pt \parskip0pt \parsep0pt
 	\item H0: the relation 'very positive'-percentage and box office revenue
 	\begin{itemize}\itemsep0pt \parskip0pt \parsep0pt
@@ -138,15 +138,15 @@ $H1_0$ & 0.151 & 0.087175 & No \\
 $H2_0$ & 0.00165 & 0.99332 & No \\ 
 $H3_0$ & -0.0499 & 0.61564 & No\\ 
 \end{tabular}
-\caption{Kendall's tau values and p-values for the hypotheses}
+\caption{Kendall's $\tau$ values and p-values for the hypotheses}
 \label{tab:hypothesis_tests}
 \end{table}
 
 
 \section{Conclusions}
-We could not find a significant correlation between the movie sentiment and either the IMDb ratings or revenue using our method. By investigating a sample of the input of the sentiment analyzer we found that most of the sentences were not related to the movie title found in that sentence. It was most often related to something else or not a good indicator of sentiment. Even though we only looked at a small sample of the sentences compared to the whole dataset, a better selection of relevant sentences is likely to improve performance.
+We could not find a significant correlation between the movie sentiment and either the IMDb ratings or revenue. It could be the case that web crawl input data was less clean compared to the blog data that was used for revenue prediction by Liu et al\cite{Liu2007}. Our approach does not attempt to do a thorough filtering of the sentences set to make sure that we really are matching a sentence that is about the movie as well as a good indicator of sentiment about the movie. We tried to use a data-intensive approach and made an effort to preclude computationally intensive methods for sentence filtering. For example, sentences matching "The Pianist" are assumed to match this in context of the movie. 
 
-Our approach does not attempt to do a thorough filtering of the sentences set to make sure that we really are matching a sentence that is about the movie as well as a good indicator of sentiment about the movie. For example, if "The Pianist" is found in a sentence, we currently assume that this is about the movie. For certain movies this is likely to work, since the title of the movie is uncommon in normal sentences and when considering a lot of data a few incorrect sentences do not matter that much. Though with our current results this assumption seems flawed, or at least we could not use this to our advantage. Still it is likely to work for some movies like "Forrest Gump" where we do not expect many out context sentences to be found, in contrast to a movie like "The General" (e.g. The General Terms and Conditions, the general assumption). In our current approach we seem to assume that a lot of data fixes everything, even if this data is not selected well.
+An investigation of the extracted sentences seemed to show that indeed most matched sentences were not related to the movie title, but instead matched the movie title string in a different context. It was most often related to something else or not a good indicator of sentiment. Even though we only looked at a small sample of the sentences compared to the whole dataset, a better selection of relevant sentences is likely to improve performance. We expect dedicated blog data sets or online review data sets to contain more clean data and therefore to be more suitable for the task of rating and revenue prediction. Further research on other web crawls are however desirable to back up this presumption.
 %\end{document}  % This is where a 'short' article might terminate <--- Should we do this???
 
 
