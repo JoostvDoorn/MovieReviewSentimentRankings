@@ -50,16 +50,19 @@
 \alignauthor
 Joost van Doorn\\
        \affaddr{University of Twente}\\
-       \email{j.vandoorn-1@student.utwente.nl}
+       \affaddr{P.O. Box 217, 7500AE Enschede}\\
+       \affaddr{The Netherlands}
 % 2nd. author
 \alignauthor
 Bas Janssen\\
        \affaddr{University of Twente}\\
-       \email{b.janssen@student.utwente.nl}
+       \affaddr{P.O. Box 217, 7500AE Enschede}\\
+       \affaddr{The Netherlands}
 % 3rd. author
 \alignauthor Niek Tax\\
        \affaddr{University of Twente}\\
-       \email{n.tax@student.utwente.nl}
+       \affaddr{P.O. Box 217, 7500AE Enschede}\\
+       \affaddr{The Netherlands}
 }
 % There's nothing stopping you putting the seventh, eighth, etc.
 % author on the opening page (as the 'third row') but we ask,
@@ -72,23 +75,7 @@ Bas Janssen\\
 
 \maketitle
 \begin{abstract}
-%This paper provides a sample of a \LaTeX\ document which %conforms to
-%the formatting guidelines for ACM SIG Proceedings.
-%It complements the document \textit{Author's Guide to %Preparing
-%ACM SIG Proceedings Using \LaTeX$2_\epsilon$\ and Bib\TeX}. %This
-%source file has been written with the intention of being
-%compiled under \LaTeX$2_\epsilon$\ and BibTeX.
-%
-%The developers have tried to include every imaginable sort
-%of ``bells and whistles", such as a subtitle, footnotes on
-%title, subtitle and authors, as well as in the text, and
-%every optional component (e.g. Acknowledgments, Additional
-%Authors, Appendices), not to mention examples of
-%equations, theorems, tables and figures.
-%
-%To make best use of this sample document, run it through \%LaTeX\
-%and BibTeX, and compare this source code with the printed
-%output produced by the dvi file.
+A lot of work has been done in using sentiment analysis on online reviews or blogs for sales forecasting. However, no work has been done on using sentiment analysis on a web crawl. With Hadoop we extracted all sentences matching a IMDb top250 movie title and extracted the sentiments for these sentences. With Kendall's $\tau$ in combination with the AS71 algorithm we were not able to find a correlation between the percentage of either 'very positive' as well as 'very negative' sentences and the box office revenue as well as the IMDb rating. Therefore we can not conclude that we could use the movie sentiment based on a web crawl for prediction of either sales performance or IMDb rating.
 \end{abstract}
 
 % A category with the (minimum) three required fields
@@ -99,33 +86,61 @@ Bas Janssen\\
 \keywords{Sentiment analysis, hadoop, mapreduce, movies} % NOT required for Proceedings
 
 \section{Introduction}
-%The \textit{proceedings} are the records of a conference.
-%ACM seeks to give these conference by-products a uniform,
-%high-quality appearance.  To do this, ACM has some rigid
-%requirements for the format of the proceedings documents: there
-%is a specified format (balanced  double columns), a specified
-%set of fonts (Arial or Helvetica and Times Roman) in
-%certain specified sizes (for instance, 9 point for body copy),
-%a specified live area (18 $\times$ 23.5 cm [7" $\times$ 9.25"]) centered on
-%the page, specified size of margins (1.9 cm [0.75"]) top, (2.54 cm [1"]) bottom
-%and (1.9 cm [.75"]) left and right; specified column width
-%(8.45 cm [3.33"]) and gutter size (.83 cm [.33"]).
-%
-%The good news is, with only a handful of manual
-%settings\footnote{Two of these, the {\texttt{\char'134 numberofauthors}}
-%and {\texttt{\char'134 alignauthor}} commands, you have
-%already used; another, {\texttt{\char'134 balancecolumns}}, will
-%be used in your very last run of \LaTeX\ to ensure
-%balanced column heights on the last page.}, the \LaTeX\ document
-%class file handles all of this for you.
-%
-%The remainder of this document is concerned with showing, in
-%the context of an ``actual'' document, the \LaTeX\ commands
-%specifically available for denoting the structure of a
-%proceedings paper, rather than with giving rigorous descriptions
-%or explanations of such commands.
-%
+With the emergence of the Web2.0 came a staggering increase of online reviews for, amongst others, movies. Reviews on the web often appear shortly after a movie's cinema release, possibly already during the movie's opening night on social media like Twitter. 
+
+Several studies have shown the predictive power of online movie review sentiment to movie sales performance \cite{Mishne2006, Liu2007, Dellarocas2007, Asur2010, Joshi2010, Yu2012}. Existing research in the predictive power of online movie review sentiment have limited scope, focusing on one blogging platform or social medium. The release of the Common Crawl\footnote{commoncrawl.org} data set allows us to research the applicability of movie sentiments on a large crawl of the web.  
+
+We also investigate the level of agreement between online movie review sentiment and Internet Movie Database (IMDb\footnote{imdb.com}) movie rating. A high agreement between IMDb ratings and online movie review sentiment would 1) show that IMDb movie ratings reflect a movie's overall appreciation the web, and 2) make it possible for the movie industry to obtain rating input data for sales forecasting models in an earlier stage, as the minimal sample size needed for reliable ratings will be reached earlier on whole web than on a single resource. A previous study in this area by Oghina et al \cite{Oghina2012} achieved a Spearman's $\rho$ of 0.8915 between IMDb rating and a Twitter and Youtube data based machine learning model. No similar web crawl based study is known to the authors.
+
 \section{The {\secit Body} of The Paper}
+We use a publicly available subset of the IMDb database\footnote{ftp://ftp.fu-berlin.de/pub/misc/movies/database/} consisting of over 500 000 movies and their ratings. For the results described in this paper we used the top 250 Movies of IMDb. We used this subset as this set is likely to be more frequent than other sets.
+
+Using a user-defined function (UDF) in Apache Pig\footnote{pig.apache.org} we filter the Text Only files (containing only textual content of the HTML body) from the Common Crawl data set to obtain the web content of only those pages that contain one of the movie titles in our movie set. We split this content into sentences using the sentence splitter that comes with the Stanford CoreNLP\footnote{nlp.stanford.edu/software/corenlp.shtml} Tokenizer. The outputted sentences are again filtered on presence of a movie title from our movie set to obtain all sentences in Common Crawl that mention a movie in our movie set.
+
+Socher et al \cite{Socher2013} made their recursive neural tensor network sentence-level sentiment analysis model for predicting review sentiment publicly available as part of the Stanford CoreNLP library. We use this sentiment analysis model to construct movie sentiment key-value pairs for each sentence, with sentiment being an element from the set \texttt{\{\mbox{---},--,0,+,\mbox{++}\}}. A reduce task transforms these movie sentiment pairs into counts of the different sentiment categories for each movie. 
+
+We will use Kendall's tau\cite{Kendall1938} as measure of accordance between movie sentiments and box office revenue and IMDb rating. Using the AS71 algorithm proposed by Best and Gipps\cite{Best1974}, we can calculate the p-value for rejecting the null hypothesis based on the Kendall's tau statistic. Levels of accordance will be tested for percentage of a movie's 'very negative'-sentiments and 'very positive'-sentiments on the one hand and its box office revenue and IMDb rating on the other hand, therefore we state the following hypotheses:
+\begin{itemize}\itemsep1pt \parskip0pt \parsep0pt
+	\item H0: the relation 'very positive'-percentage and box office revenue
+	\begin{itemize}\itemsep1pt \parskip0pt \parsep0pt
+		\item $H0_0$: There does not exist any correlation between 'very positive'-\% and box office revenue
+		\item $H0_1$: There does exist a correlation between 'very positive'-\% and box office revenue
+	\end{itemize}
+	\item H1: the relation 'very negative'-percentage and box office revenue
+	\begin{itemize}\itemsep1pt \parskip0pt \parsep0pt
+		\item $H1_0$: There does not exist any correlation between 'very negative'-\% and box office revenue
+		\item $H1_1$: There does exist a correlation between 'very negative'-\% and box office revenue
+	\end{itemize}
+	\item H2: the relation 'very positive'-percentage and IMDb rating
+	\begin{itemize}\itemsep1pt \parskip0pt \parsep0pt
+		\item $H2_0$: There does not exist any correlation between 'very positive'-\% and IMDb rating
+		\item $H2_1$: There does exist a correlation between 'very positive'-\% and IMDb rating
+	\end{itemize}
+	\item H3: the relation 'very negative'-percentage and IMDb rating
+	\begin{itemize}\itemsep1pt \parskip0pt \parsep0pt
+		\item $H3_0$: There does not exist any correlation between 'very negative'-\% and IMDb rating
+		\item $H3_1$: There does exist a correlation between 'very negative'-\% and IMDb rating
+	\end{itemize}
+\end{itemize}
+
+Hypotheses listed are tested on a 5\%-significance level.
+
+The Pig files, the Pig User Defined Functions, the R script for the statistical analysis and other source files are publicly available on our GitHub repository\footnote{https://github.com/JoostvDoorn/MovieReviewSentimentRankings}.
+
+\subsection{Results}
+In about 16 hours the SURFsara Hadoop cluster processed the Common Crawl data set and extracted sentiment sets for each movie. 17 parallel map tasks were running throughout the process. Shorter processing times would have been possible by setting the split factor such that more parallel map tasks would have been used, but did not want to put more load on the cluster than needed. We used a Python script to group the sentiments of each movie into counts for each sentiment category. In total we processed almost half a million sentences. A time-out in the sentiment analysis UDF of 3000ms caused the sentiment analysis of 42.9\% of all sentences to time-out. Table \ref{tab:hypothesis_tests} displays the results of the statistical tests performed on the extracted data.
+\begin{table}[!h!p]
+\begin{tabular}{l|lll}
+Hypothesis & Kendall's $\tau$ & p-value (2-sid.) & Reject $H_0$?\\
+\hline
+$H0_0$ & 0.146 & 0.10393 & No \\ 
+$H1_0$ & 0.151 & 0.087175 & No \\ 
+$H2_0$ & 0.00165 & 0.99332 & No \\ 
+$H3_0$ & -0.0499 & 0.61564 & No\\ 
+\end{tabular}
+\caption{Kendall's tau values and p-values for the hypotheses}
+\label{tab:hypothesis_tests}
+\end{table}
 
 \subsection{Citations}
 Citations to articles \cite{bowman:reasoning, clark:pct, braams:babel, herlihy:methodology},
@@ -175,25 +190,15 @@ $\Psi^2_1$ & 1 in 40,000& Unexplained usage\\
 
 
 \section{Conclusions}
-This paragraph will end the body of this sample document.
-Remember that you might still have Acknowledgments or
-Appendices; brief samples of these
-follow.  There is still the Bibliography to deal with; and
-we will make a disclaimer about that here: with the exception
-of the reference to the \LaTeX\ book, the citations in
-this paper are to articles which have nothing to
-do with the present subject and are used as
-examples only.
-%\end{document}  % This is where a 'short' article might terminate
+We could not find a significant correlation between the movie sentiment and either the IMDb ratings or revenue using our method. By investigating a sample of the input of the sentiment analyzer we found that most of the sentences were not related to the movie title found in that sentence. It was most often related to something else or not a good indicator of sentiment. Even though we only looked at a small sample of the sentences compared to the whole dataset, a better selection of relevant sentences is likely to improve performance.
+
+Our approach does not attempt to do a thorough filtering of the sentences set to make sure that we really are matching a sentence that is about the movie as well as a good indicator of sentiment about the movie. For example, if "The Pianist" is found in a sentence, we currently assume that this is about the movie. For certain movies this is likely to work, since the title of the movie is uncommon in normal sentences and when considering a lot of data a few incorrect sentences do not matter that much. Though with our current results this assumption seems flawed, or at least we could not use this to our advantage. Still it is likely to work for some movies like "Forrest Gump" where we do not expect many out context sentences to be found, in contrast to a movie like "The General" (e.g. The General Terms and Conditions, the general assumption). In our current approach we seem to assume that a lot of data fixes everything, even if this data is not selected well.
+%\end{document}  % This is where a 'short' article might terminate <--- Should we do this???
 
 %ACKNOWLEDGMENTS are optional
 \section{Acknowledgments}
-This section is optional; it is a location for you
-to acknowledge grants, funding, editing assistance and
-what have you.  In the present case, for example, the
-authors would like to thank Gerald Murray of ACM for
-his help in codifying this \textit{Author's Guide}
-and the \textbf{.cls} and \textbf{.tex} files that it describes.
+Our special thanks to Dr. Djoerd Hiemstra for his supervision throughout the research as our supervisor and to IMDb for making the movie ratings available. Furthermore we would like to thank SURFsara for allowing us to run computations on their Hadoop cluster.
+
 
 %
 % The following two commands are all you need in the
@@ -210,51 +215,7 @@ and the \textbf{.cls} and \textbf{.tex} files that it describes.
 %
 %APPENDICES are optional
 %\balancecolumns
-\appendix
-%Appendix A
-\section{Headings in Appendices}
-The rules about hierarchical headings discussed above for
-the body of the article are different in the appendices.
-In the \textbf{appendix} environment, the command
-\textbf{section} is used to
-indicate the start of each Appendix, with alphabetic order
-designation (i.e. the first is A, the second B, etc.) and
-a title (if you include one).  So, if you need
-hierarchical structure
-\textit{within} an Appendix, start with \textbf{subsection} as the
-highest level. Here is an outline of the body of this
-document in Appendix-appropriate form:
-\subsection{Introduction}
-\subsection{The Body of the Paper}
-\subsubsection{Type Changes and  Special Characters}
-\subsubsection{Math Equations}
-\paragraph{Inline (In-text) Equations}
-\paragraph{Display Equations}
-\subsubsection{Citations}
-\subsubsection{Tables}
-\subsubsection{Figures}
-\subsubsection{Theorem-like Constructs}
-\subsubsection*{A Caveat for the \TeX\ Expert}
-\subsection{Conclusions}
-\subsection{Acknowledgments}
-\subsection{Additional Authors}
-This section is inserted by \LaTeX; you do not insert it.
-You just add the names and information in the
-\texttt{{\char'134}additionalauthors} command at the start
-of the document.
-\subsection{References}
-Generated by bibtex from your ~.bib file.  Run latex,
-then bibtex, then latex twice (to resolve references)
-to create the ~.bbl file.  Insert that ~.bbl file into
-the .tex source file and comment out
-the command \texttt{{\char'134}thebibliography}.
-% This next section command marks the start of
-% Appendix B, and does not continue the present hierarchy
-\section{More Help for the Hardy}
-The acm\_proc\_article-sp document class file itself is chock-full of succinct
-and helpful comments.  If you consider yourself a moderately
-experienced to expert user of \LaTeX, you may find reading
-it useful but please remember not to change it.
+
 \balancecolumns
 % That's all folks!
 \end{document}
