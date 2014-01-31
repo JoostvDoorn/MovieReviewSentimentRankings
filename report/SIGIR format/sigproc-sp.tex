@@ -92,7 +92,7 @@ Several studies have shown the predictive power of online movie review sentiment
 
 We also investigate the level of agreement between online movie review sentiment and Internet Movie Database (IMDb\footnote{imdb.com}) movie rating. A high agreement between IMDb ratings and online movie review sentiment would 1) show that IMDb movie ratings reflect a movie's overall appreciation the web, and 2) make it possible for the movie industry to obtain rating input data for sales forecasting models in an earlier stage, as the minimal sample size needed for reliable ratings will be reached earlier on whole web than on a single resource. A previous study in this area by Oghina et al \cite{Oghina2012} achieved a Spearman's $\rho$ of 0.8915 between IMDb rating and a Twitter and Youtube data based machine learning model. No similar web crawl based study is known to the authors.
 
-\section{The {\secit Body} of The Paper}
+\section{Method}
 We use a publicly available subset of the IMDb database\footnote{ftp://ftp.fu-berlin.de/pub/misc/movies/database/} consisting of over 500 000 movies and their ratings. For the results described in this paper we used the top 250 Movies of IMDb. We used this subset as this set is likely to be more frequent than other sets.
 
 Using a user-defined function (UDF) in Apache Pig\footnote{pig.apache.org} we filter the Text Only files (containing only textual content of the HTML body) from the Common Crawl data set to obtain the web content of only those pages that contain one of the movie titles in our movie set. We split this content into sentences using the sentence splitter that comes with the Stanford CoreNLP\footnote{nlp.stanford.edu/software/corenlp.shtml} Tokenizer. The outputted sentences are again filtered on presence of a movie title from our movie set to obtain all sentences in Common Crawl that mention a movie in our movie set.
@@ -127,7 +127,7 @@ Hypotheses listed are tested on a 5\%-significance level.
 
 The Pig files, the Pig User Defined Functions, the R script for the statistical analysis and other source files are publicly available on our GitHub repository\footnote{https://github.com/JoostvDoorn/MovieReviewSentimentRankings}.
 
-\subsection{Results}
+\section{Results}
 In about 16 hours the SURFsara Hadoop cluster processed the Common Crawl data set and extracted sentiment sets for each movie. 17 parallel map tasks were running throughout the process. Shorter processing times would have been possible by setting the split factor such that more parallel map tasks would have been used, but did not want to put more load on the cluster than needed. We used a Python script to group the sentiments of each movie into counts for each sentiment category. In total we processed almost half a million sentences. A time-out in the sentiment analysis UDF of 3000ms caused the sentiment analysis of 42.9\% of all sentences to time-out. Table \ref{tab:hypothesis_tests} displays the results of the statistical tests performed on the extracted data.
 \begin{table}
 \begin{tabular}{l|lll}
