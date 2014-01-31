@@ -1,7 +1,7 @@
 % This is not an official submission to SIGIR, this is only an assignment for a course about mapreduce at the University of Twente
 
 \documentclass{acm_proc_article-sp}
-
+\setlength{\leftmargini}{0pt}
 \begin{document}
 
 \title{Analyzing the correlation between Movie Sentiment and Sales Performance}
@@ -88,36 +88,36 @@ A lot of work has been done in using sentiment analysis on online reviews or blo
 \section{Introduction}
 With the emergence of the Web2.0 came a staggering increase of online reviews for, amongst others, movies. Reviews on the web often appear shortly after a movie's cinema release, possibly already during the movie's opening night on social media like Twitter. 
 
-Several studies have shown the predictive power of online movie review sentiment to movie sales performance \cite{Mishne2006, Liu2007, Dellarocas2007, Asur2010, Joshi2010, Yu2012}. Existing research in the predictive power of online movie review sentiment have limited scope, focusing on one blogging platform or social medium. The release of the Common Crawl\footnote{commoncrawl.org} data set allows us to research the applicability of movie sentiments on a large crawl of the web.  
+Several studies have shown the predictive power of online movie review sentiment to movie sales performance \cite{Mishne2006, Liu2007, Dellarocas2007, Asur2010, Joshi2010, Yu2012}. Existing research in the predictive power of online movie review sentiment have limited scope, focusing on one blogging platform or social medium. The release of the Common Crawl data set allows us to research the applicability of movie sentiments on a large crawl of the web.  
 
-We also investigate the level of agreement between online movie review sentiment and Internet Movie Database (IMDb\footnote{imdb.com}) movie rating. A high agreement between IMDb ratings and online movie review sentiment would 1) show that IMDb movie ratings reflect a movie's overall appreciation the web, and 2) make it possible for the movie industry to obtain rating input data for sales forecasting models in an earlier stage, as the minimal sample size needed for reliable ratings will be reached earlier on whole web than on a single resource. A previous study in this area by Oghina et al \cite{Oghina2012} achieved a Spearman's $\rho$ of 0.8915 between IMDb rating and a Twitter and Youtube data based machine learning model. No similar web crawl based study is known to the authors.
+We also investigate the level of agreement between online movie review sentiment and Internet Movie Database (IMDb) movie rating. A high agreement between IMDb ratings and online movie review sentiment would 1) show that IMDb movie ratings reflect a movie's overall appreciation the web, and 2) make it possible for the movie industry to obtain rating input data for sales forecasting models in an earlier stage, as the minimal sample size needed for reliable ratings will be reached earlier on whole web than on a single resource. A previous study in this area by Oghina et al \cite{Oghina2012} achieved a Spearman's $\rho$ of 0.8915 between IMDb rating and a Twitter and Youtube data based machine learning model. No similar web crawl based study is known to the authors.
 
 \section{Method}
 We use a publicly available subset of the IMDb database\footnote{ftp://ftp.fu-berlin.de/pub/misc/movies/database/} consisting of over 500 000 movies and their ratings. For the results described in this paper we used the top 250 Movies of IMDb. We used this subset as this set is likely to be more frequent than other sets.
 
-Using a user-defined function (UDF) in Apache Pig\footnote{pig.apache.org} we filter the Text Only files (containing only textual content of the HTML body) from the Common Crawl data set to obtain the web content of only those pages that contain one of the movie titles in our movie set. We split this content into sentences using the sentence splitter that comes with the Stanford CoreNLP\footnote{nlp.stanford.edu/software/corenlp.shtml} Tokenizer. The outputted sentences are again filtered on presence of a movie title from our movie set to obtain all sentences in Common Crawl that mention a movie in our movie set.
+Using a user-defined function (UDF) in Apache Pig we filter the Text Only files (containing only textual content of the HTML body) from the Common Crawl data set to obtain the web content of only those pages that contain one of the movie titles in our movie set. We split this content into sentences using the sentence splitter that comes with the Stanford CoreNLP\footnote{nlp.stanford.edu/software/corenlp.shtml} Tokenizer. The outputted sentences are again filtered on presence of a movie title from our movie set to obtain all sentences in Common Crawl that mention a movie in our movie set.
 
 Socher et al \cite{Socher2013} made their recursive neural tensor network sentence-level sentiment analysis model for predicting review sentiment publicly available as part of the Stanford CoreNLP library. We use this sentiment analysis model to construct movie sentiment key-value pairs for each sentence, with sentiment being an element from the set \texttt{\{\mbox{---},--,0,+,\mbox{++}\}}. A reduce task transforms these movie sentiment pairs into counts of the different sentiment categories for each movie. 
 
 We will use Kendall's tau\cite{Kendall1938} as measure of accordance between movie sentiments and box office revenue and IMDb rating. Using the AS71 algorithm proposed by Best and Gipps\cite{Best1974}, we can calculate the p-value for rejecting the null hypothesis based on the Kendall's tau statistic. Levels of accordance will be tested for percentage of a movie's 'very negative'-sentiments and 'very positive'-sentiments on the one hand and its box office revenue and IMDb rating on the other hand, therefore we state the following hypotheses:
-\begin{itemize}\itemsep1pt \parskip0pt \parsep0pt
+\begin{itemize}\itemsep0pt \parskip0pt \parsep0pt
 	\item H0: the relation 'very positive'-percentage and box office revenue
-	\begin{itemize}\itemsep1pt \parskip0pt \parsep0pt
+	\begin{itemize}\itemsep0pt \parskip0pt \parsep0pt
 		\item $H0_0$: There does not exist any correlation between 'very positive'-\% and box office revenue
 		\item $H0_1$: There does exist a correlation between 'very positive'-\% and box office revenue
 	\end{itemize}
 	\item H1: the relation 'very negative'-percentage and box office revenue
-	\begin{itemize}\itemsep1pt \parskip0pt \parsep0pt
+	\begin{itemize}\itemsep0pt \parskip0pt \parsep0pt
 		\item $H1_0$: There does not exist any correlation between 'very negative'-\% and box office revenue
 		\item $H1_1$: There does exist a correlation between 'very negative'-\% and box office revenue
 	\end{itemize}
 	\item H2: the relation 'very positive'-percentage and IMDb rating
-	\begin{itemize}\itemsep1pt \parskip0pt \parsep0pt
+	\begin{itemize}\itemsep0pt \parskip0pt \parsep0pt
 		\item $H2_0$: There does not exist any correlation between 'very positive'-\% and IMDb rating
 		\item $H2_1$: There does exist a correlation between 'very positive'-\% and IMDb rating
 	\end{itemize}
 	\item H3: the relation 'very negative'-percentage and IMDb rating
-	\begin{itemize}\itemsep1pt \parskip0pt \parsep0pt
+	\begin{itemize}\itemsep0pt \parskip0pt \parsep0pt
 		\item $H3_0$: There does not exist any correlation between 'very negative'-\% and IMDb rating
 		\item $H3_1$: There does exist a correlation between 'very negative'-\% and IMDb rating
 	\end{itemize}
