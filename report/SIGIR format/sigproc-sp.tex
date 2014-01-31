@@ -129,7 +129,7 @@ The Pig files, the Pig User Defined Functions, the R script for the statistical 
 
 \subsection{Results}
 In about 16 hours the SURFsara Hadoop cluster processed the Common Crawl data set and extracted sentiment sets for each movie. 17 parallel map tasks were running throughout the process. Shorter processing times would have been possible by setting the split factor such that more parallel map tasks would have been used, but did not want to put more load on the cluster than needed. We used a Python script to group the sentiments of each movie into counts for each sentiment category. In total we processed almost half a million sentences. A time-out in the sentiment analysis UDF of 3000ms caused the sentiment analysis of 42.9\% of all sentences to time-out. Table \ref{tab:hypothesis_tests} displays the results of the statistical tests performed on the extracted data.
-\begin{table}[!h!p]
+\begin{table}
 \begin{tabular}{l|lll}
 Hypothesis & Kendall's $\tau$ & p-value (2-sid.) & Reject $H_0$?\\
 \hline
@@ -140,52 +140,6 @@ $H3_0$ & -0.0499 & 0.61564 & No\\
 \end{tabular}
 \caption{Kendall's tau values and p-values for the hypotheses}
 \label{tab:hypothesis_tests}
-\end{table}
-
-\subsection{Citations}
-Citations to articles \cite{bowman:reasoning, clark:pct, braams:babel, herlihy:methodology},
-conference
-proceedings \cite{clark:pct} or books \cite{salas:calculus, Lamport:LaTeX} listed
-in the Bibliography section of your
-article will occur throughout the text of your article.
-You should use BibTeX to automatically produce this bibliography;
-you simply need to insert one of several citation commands with
-a key of the item cited in the proper location in
-the \texttt{.tex} file \cite{Lamport:LaTeX}.
-The key is a short reference you invent to uniquely
-identify each work; in this sample document, the key is
-the first author's surname and a
-word from the title.  This identifying key is included
-with each item in the \texttt{.bib} file for your article.
-
-\subsection{Tables}
-Because tables cannot be split across pages, the best
-placement for them is typically the top of the page
-nearest their initial cite.  To
-ensure this proper ``floating'' placement of tables, use the
-environment \textbf{table} to enclose the table's contents and
-the table caption.  The contents of the table itself must go
-in the \textbf{tabular} environment, to
-be aligned properly in rows and columns, with the desired
-horizontal and vertical rules.  Again, detailed instructions
-on \textbf{tabular} material
-is found in the \textit{\LaTeX\ User's Guide}.
-
-Immediately following this sentence is the point at which
-Table 1 is included in the input file; compare the
-placement of the table here with the table in the printed
-dvi output of this document.
-
-\begin{table}
-\centering
-\caption{Frequency of Special Characters}
-\begin{tabular}{|c|c|l|} \hline
-Non-English or Math&Frequency&Comments\\ \hline
-\O & 1 in 1,000& For Swedish names\\ \hline
-$\pi$ & 1 in 5& Common in math\\ \hline
-\$ & 4 in 5 & Used in business\\ \hline
-$\Psi^2_1$ & 1 in 40,000& Unexplained usage\\
-\hline\end{tabular}
 \end{table}
 
 
