@@ -48,7 +48,7 @@ A lot of work has been done in using sentiment analysis on online reviews or blo
 \keywords{Sentiment Analysis}
 
 \section{Idea}
-With the emergence of the Web2.0 came a staggering increase of online reviews for, amongst others, movies. Reviews on the web often appear shortly after a movie's cinema release, possibly already during the movie's opening night on social media like Twitter. 
+With the emergence of the Web 2.0 came a staggering increase of online reviews for, amongst others, movies. Reviews on the web often appear shortly after a movie's cinema release, possibly already during the movie's opening night on social media like Twitter. 
 
 Several studies have shown the predictive power of online movie review sentiment to movie sales performance \cite{Mishne2006, Liu2007, Dellarocas2007, Asur2010, Joshi2010, Yu2012}. Existing research in the predictive power of online movie review sentiment have limited scope, focusing on one blogging platform or social medium. The release of the Common Crawl\footnote{commoncrawl.org} data set allows us to research the applicability of movie sentiments on a large crawl of the web.  
 
@@ -61,7 +61,7 @@ Using a user-defined function (UDF) in Pig we filter the Text Only files (contai
 
 Socher et al \cite{Socher2013} made their recursive neural tensor network sentence-level sentiment analysis model for predicting review sentiment publicly available as part of the Stanford CoreNLP library. We use this sentiment analysis model to construct movie sentiment key-value pairs for each sentence, with sentiment being an element from the set \texttt{\{\mbox{---},--,0,+,\mbox{++}\}}. A reduce task transforms these movie sentiment pairs into counts of the different sentiment categories for each movie. 
 
-We will use Kendall's tau\cite{Kendall1938} as measure of accordance between movie sentiments and box office revenue and IMDb rating. Using the AS71 algorithm proposed by Best and Gipps\cite{Best1974}, we can calculate the p-value for rejecting the null hypothesis based on the Kendall's tau statistic. Levels of accordance will be tested for percentage of a movie's 'very negative'-sentiments and 'very positive'-sentiments on the one hand and its box office revenue and IMDb rating on the other hand, therefore we state the following hypotheses:
+We will use Kendall's $\tau$\cite{Kendall1938} as measure of accordance between movie sentiments and box office revenue and IMDb rating. Using the AS71 algorithm proposed by Best and Gipps\cite{Best1974}, we can calculate the p-value for rejecting the null hypothesis based on the Kendall's $\tau$ statistic. Levels of accordance will be tested for percentage of a movie's 'very negative'-sentiments and 'very positive'-sentiments on the one hand and its box office revenue and IMDb rating on the other hand, therefore we state the following hypotheses:
 \begin{itemize}\itemsep1pt \parskip0pt \parsep0pt
 	\item H0: the relation 'very positive'-percentage and box office revenue
 	\begin{itemize}\itemsep1pt \parskip0pt \parsep0pt
@@ -100,7 +100,7 @@ $H1_0$ & 0.151 & 0.087175 & No \\
 $H2_0$ & 0.00165 & 0.99332 & No \\ 
 $H3_0$ & -0.0499 & 0.61564 & No\\ 
 \end{tabular}
-\caption{Kendall's tau values and p-values for the hypotheses}
+\caption{Kendall's $\tau$ values and p-values for the hypotheses}
 \label{tab:hypothesis_tests}
 \end{table}
 
